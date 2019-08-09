@@ -39,7 +39,6 @@ int main()
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
 	//io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
 	//io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
-	io.WantCaptureMouse = true; // do not dispatch mouse input data to your main application.
 
 	// Setup Dear ImGui style
 	//ImGui::StyleColorsDark();
@@ -51,6 +50,8 @@ int main()
 
 	while (!ourWorld.should_close())
 	{
+		World3D::mouseOverImGui = io.WantCaptureMouse;
+
 		// clear buffers, pool and events and update the world
 		ourWorld.update();
 		ourWorld.clear();
@@ -76,6 +77,8 @@ int main()
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 		ourWorld.draw();
+
+		//std::cout << io.WantCaptureMouse << std::endl;
 	}
 
 	return 0;

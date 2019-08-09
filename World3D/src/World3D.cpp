@@ -4,6 +4,8 @@ const float PI = atanf(1) * 4;
 
 FrameRate World3D::m_frameRate;
 Camera World3D::m_camera;
+// To Dear ImGui work outside de World3D we need to pass the GLFW window
+bool World3D::mouseOverImGui = false;
 
 static void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
@@ -217,6 +219,9 @@ void World3D::key_callback(GLFWwindow* window, int key, int scancode, int action
 
 void World3D::mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 {
+	// To Dear ImGui work outside de World3D we need to pass the GLFW window
+	if (mouseOverImGui) return;
+
 	if (button == GLFW_MOUSE_BUTTON_LEFT)
 		m_camera.mouseButtonState[BUTTON_LEFT] = (action == GLFW_PRESS);
 	if (button == GLFW_MOUSE_BUTTON_RIGHT)
@@ -225,6 +230,9 @@ void World3D::mouse_button_callback(GLFWwindow* window, int button, int action, 
 
 void World3D::cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
 {
+	// To Dear ImGui work outside de World3D we need to pass the GLFW window
+	if (mouseOverImGui) return;
+
 	m_camera.update_mouse((float)xpos, (float)ypos);
 }
 

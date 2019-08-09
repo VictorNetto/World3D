@@ -33,6 +33,7 @@ public:
 
 	// To Dear ImGui work outside de World3D we need to pass the GLFW window
 	GLFWwindow* get_glfw_window() { return m_window; }
+	static bool mouseOverImGui;
 private:
 	static FrameRate m_frameRate;
 	static Camera m_camera;
