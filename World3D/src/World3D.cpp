@@ -1,13 +1,48 @@
 #include "World3D.h"
 
+#include <math.h>
+
+#include <glm/vec3.hpp>
+#include <glm/mat4x4.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
+#include "imgui.h"
+#include "imgui_impl_glfw.h"
+#include "imgui_impl_opengl3.h"
+
+#include "primitive.h"
+
 const float PI = atanf(1) * 4;
 
 FrameRate World3D::m_frameRate;
 Camera World3D::m_camera;
-// To Dear ImGui work outside de World3D we need to pass the GLFW window
-bool World3D::mouseOverImGui = false;
 
 static void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+
+static void initialize_ImGui(GLFWwindow* window)
+{
+	// Setup Dear ImGui context
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	//ImGuiIO& io = ImGui::GetIO(); (void)io;
+	//io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+	//io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+
+	// Setup Dear ImGui style
+	ImGui::StyleColorsDark();
+	//ImGui::StyleColorsClassic();
+
+	// Setup Platform/Renderer bindings
+	ImGui_ImplGlfw_InitForOpenGL(window, true);
+	ImGui_ImplOpenGL3_Init("#version 330 core");
+}
+
+static void ImGui_terminate()
+{
+	ImGui_ImplOpenGL3_Shutdown();
+	ImGui_ImplGlfw_Shutdown();
+	ImGui::DestroyContext();
+}
 
 World3D::World3D()
 {
@@ -57,6 +92,10 @@ World3D::World3D()
 	// Anti Aliasing
 	//--------------
 	glEnable(GL_MULTISAMPLE);
+
+	// ImGui
+	//------
+	initialize_ImGui(m_window);
 
 	// Initialize the Primitive
 	//  - build the m_shader (glew must be initialized before m_shader can be build)
@@ -124,6 +163,9 @@ World3D::~World3D()
 	// glfw: terminate, clearing all previously allocated GLFW resources.
 	// ------------------------------------------------------------------
 	glfwTerminate();
+
+	// shut down ImGui
+	ImGui_terminate();
 }
 
 bool World3D::should_close() const
@@ -219,8 +261,8 @@ void World3D::key_callback(GLFWwindow* window, int key, int scancode, int action
 
 void World3D::mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 {
-	// To Dear ImGui work outside de World3D we need to pass the GLFW window
-	if (mouseOverImGui) return;
+	ImGuiIO& io = ImGui::GetIO();
+	if (io.WantCaptureMouse) return;
 
 	if (button == GLFW_MOUSE_BUTTON_LEFT)
 		m_camera.mouseButtonState[BUTTON_LEFT] = (action == GLFW_PRESS);
@@ -230,8 +272,8 @@ void World3D::mouse_button_callback(GLFWwindow* window, int button, int action, 
 
 void World3D::cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
 {
-	// To Dear ImGui work outside de World3D we need to pass the GLFW window
-	if (mouseOverImGui) return;
+	ImGuiIO& io = ImGui::GetIO();
+	if (io.WantCaptureMouse) return;
 
 	m_camera.update_mouse((float)xpos, (float)ypos);
 }

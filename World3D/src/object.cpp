@@ -25,6 +25,14 @@ void Object::rotate(float theta, float nx, float ny, float nz)
 	}
 }
 
+void Object::set_position(float newX, float newY, float newZ)
+{
+	for (unsigned int i = 0; i < m_primitives.size(); i++)
+	{
+		m_primitives[i].set_position(newX, newY, newZ);
+	}
+}
+
 void Object::draw(const glm::mat4& view, const glm::mat4& projection, const glm::vec3& viewPos) const
 {
 	for (unsigned int i = 0; i < m_primitives.size(); i++)

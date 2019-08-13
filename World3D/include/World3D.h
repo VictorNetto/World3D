@@ -1,14 +1,9 @@
 #pragma once
 
 #include <vector>
-#include <math.h>
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-
-#include "primitive.h"
 #include "object.h"
 #include "frameRate.h"
 #include "camera.h"
@@ -31,9 +26,6 @@ public:
 	bool lightVisible = false;
 	bool floorVisible = false;
 
-	// To Dear ImGui work outside de World3D we need to pass the GLFW window
-	GLFWwindow* get_glfw_window() { return m_window; }
-	static bool mouseOverImGui;
 private:
 	static FrameRate m_frameRate;
 	static Camera m_camera;

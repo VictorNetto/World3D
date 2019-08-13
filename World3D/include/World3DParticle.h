@@ -14,6 +14,5 @@ public:
 	virtual float get_z() const { return 0.0f; };
 
 private:
-	float m_old_x, m_old_y, m_old_z;
 	Object m_object;
 };

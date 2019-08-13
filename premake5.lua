@@ -28,7 +28,8 @@ project "World3D"
 	files 
 	{
 		"%{prj.name}/include/**.h",
-		"%{prj.name}/src/**.cpp"
+		"%{prj.name}/src/**.cpp",
+		"%{wks.location}/DearImGui/**.cpp"
 	}
 
 	includedirs
@@ -36,10 +37,11 @@ project "World3D"
 		"%{prj.name}/include",
 		"%{wks.location}/Dependencies/glew-2.1.0/include",
 		"%{wks.location}/Dependencies/glfw-3.3.bin.WIN64/include",
-		"%{wks.location}/Dependencies/"
+		"%{wks.location}/Dependencies/",
+		"%{wks.location}/DearImGui"
 	}
 
-	defines { "GLEW_STATIC" }
+	defines { "GLEW_STATIC", "IMGUI_IMPL_OPENGL_LOADER_GLEW" }
 
 	filter "configurations:Debug"
 		defines { "DEBUG" }

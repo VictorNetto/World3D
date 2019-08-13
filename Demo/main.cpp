@@ -21,8 +21,8 @@ public:
 
 int main()
 {
-	float particleColor[3];
-	float particlePositon[3];
+	float particleColor[3] = { 1, 0, 0 };
+	float particlePositon[3] = { 1, 1, 1 };
 
 	World3D ourWorld;
 	//ourWorld.axesVisible = false;
@@ -33,25 +33,8 @@ int main()
 
 	ourWorld.add_particle(&pa);
 
-	// Setup Dear ImGui context
-	IMGUI_CHECKVERSION();
-	ImGui::CreateContext();
-	ImGuiIO& io = ImGui::GetIO(); (void)io;
-	//io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-	//io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
-
-	// Setup Dear ImGui style
-	//ImGui::StyleColorsDark();
-	ImGui::StyleColorsClassic();
-
-	// Setup Platform/Renderer bindings
-	ImGui_ImplGlfw_InitForOpenGL(ourWorld.get_glfw_window() , true);
-	ImGui_ImplOpenGL3_Init("#version 330 core");
-
 	while (!ourWorld.should_close())
 	{
-		World3D::mouseOverImGui = io.WantCaptureMouse;
-
 		// clear buffers, pool and events and update the world
 		ourWorld.update();
 		ourWorld.clear();
@@ -77,8 +60,6 @@ int main()
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 		ourWorld.draw();
-
-		//std::cout << io.WantCaptureMouse << std::endl;
 	}
 
 	return 0;

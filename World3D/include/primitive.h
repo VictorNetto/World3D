@@ -1,10 +1,7 @@
 #pragma once
 
-#include <math.h>
-
-#include <GL/glew.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
+#include <glm/mat4x4.hpp>
+#include <glm/vec3.hpp>
 
 #include "shader.h"
 #include "solids/solids.h"
@@ -42,6 +39,7 @@ struct Primitive
 
 	void translate(float dx, float dy, float dz);
 	void rotate(float theta, float nx, float ny, float nz);
+	void set_position(float newX, float newY, float newZ);
 
 	void draw(const glm::mat4& view, const glm::mat4& projection, const glm::vec3& viewPos) const;
 

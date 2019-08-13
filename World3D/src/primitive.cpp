@@ -1,5 +1,10 @@
 #include "primitive.h"
 
+#include <math.h>
+
+#include <GL/glew.h>
+#include <glm/gtc/matrix_transform.hpp>
+
 static bool solidWasLoaded[NUM_SOLIDS];
 static unsigned int _vaos[NUM_SOLIDS];
 static unsigned int _nIndices[NUM_SOLIDS];
@@ -238,6 +243,13 @@ void Primitive::rotate(float theta, float nx, float ny, float nz)
 	x = newPosition.x;
 	y = newPosition.y;
 	z = newPosition.z;
+}
+
+void Primitive::set_position(float newX, float newY, float newZ)
+{
+	x = newX;
+	y = newY;
+	z = newZ;
 }
 
 void Primitive::draw(const glm::mat4& view, const glm::mat4& projection, const glm::vec3& viewPos) const
