@@ -14,6 +14,9 @@
 
 const float PI = atanf(1) * 4;
 
+extern PhongLight phongLight;
+extern NoLight noLight;
+
 FrameRate World3D::m_frameRate;
 Camera World3D::m_camera;
 
@@ -98,8 +101,12 @@ World3D::World3D()
 	initialize_ImGui(m_window);
 
 	// Initialize the Primitive
-	//  - build the m_shader (glew must be initialized before m_shader can be build)
+	// ------------------------
 	Primitive::init();
+
+	// Initializa lights
+	// ----------------
+	Light::init();
 
 	// Set a default fps
 	m_frameRate.set_frame_rate(60.0f);
@@ -109,27 +116,27 @@ World3D::World3D()
 	// ---------------------
 	Object axis_x;
 	Primitive p1{ 0.4f, 0.0f, 0.0f, glm::rotate(glm::mat4(1.0f), PI / 2, glm::vec3(0, 1, 0)),
-		0.01f, 0.01f, 0.4f, CYLINDER };
+		0.01f, 0.01f, 0.4f, &noLight, CYLINDER };
 	Primitive p2{ 0.9f, 0.0f, 0.0f, glm::rotate(glm::mat4(1.0f), PI / 2, glm::vec3(0, 1, 0)),
-		0.05f, 0.05f, 0.10f, CONE };
+		0.05f, 0.05f, 0.10f, &noLight, CONE };
 	axis_x.add_primitive(p1);
 	axis_x.add_primitive(p2);
 	axis_x.set_color(1.0f, 0.0f, 0.0f);
 
 	Object axis_y;
 	Primitive p3{ 0.0f, 0.4f, 0.0f, glm::rotate(glm::mat4(1.0f), -PI / 2, glm::vec3(1, 0, 0)),
-		0.01f, 0.01f, 0.4f, CYLINDER };
+		0.01f, 0.01f, 0.4f, &noLight, CYLINDER };
 	Primitive p4{ 0.0f, 0.9f, 0.0f, glm::rotate(glm::mat4(1.0f), -PI / 2, glm::vec3(1, 0, 0)),
-		0.05f, 0.05f, 0.10f, CONE };
+		0.05f, 0.05f, 0.10f, &noLight, CONE };
 	axis_y.add_primitive(p3);
 	axis_y.add_primitive(p4);
 	axis_y.set_color(0.0f, 1.0f, 0.0f);
 
 	Object axis_z;
 	Primitive p5{ 0.0f, 0.0f, 0.4f, glm::mat4(1.0f),
-		0.01f, 0.01f, 0.4f, CYLINDER };
+		0.01f, 0.01f, 0.4f, &noLight, CYLINDER };
 	Primitive p6{ 0.0f, 0.0f, 0.9f, glm::mat4(1.0f),
-		0.05f, 0.05f, 0.10f, CONE };
+		0.05f, 0.05f, 0.10f, &noLight, CONE };
 	axis_z.add_primitive(p5);
 	axis_z.add_primitive(p6);
 	axis_z.set_color(0.0f, 0.0f, 1.0f);
@@ -140,19 +147,16 @@ World3D::World3D()
 
 	// Construct the light
 	// -------------------
-	extern const glm::vec3 LIGHT_COLOR;
-	extern const glm::vec3 LIGHT_POSITION;
-
-	Primitive p_light(LIGHT_POSITION.x, LIGHT_POSITION.y, LIGHT_POSITION.z, glm::mat4(1.0f),
-		0.05f, 0.05f, 0.05f, CUBE);
-	m_light.add_primitive(p_light);
-	m_light.set_color(LIGHT_COLOR.r, LIGHT_COLOR.g, LIGHT_COLOR.b);
+	Primitive p_light(phongLight.position.x, phongLight.position.y, phongLight.position.z, glm::mat4(1.0f),
+		0.05f, 0.05f, 0.05f, &noLight, CUBE);
+	lightObejct.add_primitive(p_light);
+	lightObejct.set_color(phongLight.diffuseLight.r, phongLight.diffuseLight.g, phongLight.diffuseLight.b);
 
 	// Construct the floor
 	// -------------------
 
 	Primitive p_floor(0.0f, 0.0f, 0.0f, glm::mat4(1.0f),
-		10.0f, 10.0f, 0.01f, CUBE_WITH_NORMALS);
+		10.0f, 10.0f, 0.01f, &phongLight, CUBE_WITH_NORMALS);
 	m_floor.add_primitive(p_floor);
 	m_floor.set_color(0.2f, 0.3f, 0.3f);
 
@@ -195,22 +199,26 @@ void World3D::clear() const
 
 void World3D::draw() const
 {
+	update_uniforms();
+
 	// draw axes
 	if (axesVisible)
-		for (Object object : m_axes) object.draw(m_camera.view(), m_camera.projection(), m_camera.position());
+		for (Object object : m_axes) object.draw();
 
 	// draw light
 	if (lightVisible)
-		m_light.draw(m_camera.view(), m_camera.projection(), m_camera.position());
+		lightObejct.draw();
 
 	// draw floor
 	if (floorVisible)
-		m_floor.draw(m_camera.view(), m_camera.projection(), m_camera.position());
-
+		m_floor.draw();
 
 	// draw particles
-	for (World3DParticle* particle : m_particles) particle->draw(m_camera.view(), m_camera.projection(), m_camera.position());
+	for (World3DParticle* particle : m_particles) particle->draw();
+}
 
+void World3D::swap_buffers() const
+{
 	glfwSwapBuffers(m_window);
 }
 
@@ -222,6 +230,23 @@ void World3D::set_frame_rate(float frameRateToKeep)
 float World3D::delta_time() const
 {
 	return m_frameRate.deltaTime;
+}
+
+void World3D::update_uniforms()
+{
+	glm::mat4 id4 = glm::mat4(1.0f);
+	glm::mat4 lightModel = glm::translate(id4, phongLight.position);
+
+	noLight.update_uniforms(m_camera.view(), id4);
+	phongLight.update_uniforms(m_camera.view(), lightModel);
+
+	noLight.get_shader().use();
+	noLight.get_shader().setMat4("view", m_camera.view());
+	noLight.get_shader().setMat4("projection", m_camera.projection());
+
+	phongLight.get_shader().use();
+	phongLight.get_shader().setMat4("view", m_camera.view());
+	phongLight.get_shader().setMat4("projection", m_camera.projection());
 }
 
 void World3D::add_particle(World3DParticle* particle)

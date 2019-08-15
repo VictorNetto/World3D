@@ -60,6 +60,9 @@
     <ClInclude Include="include\worldParticle.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="include\light.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\DearImGui\imgui.cpp">
@@ -99,6 +102,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\shader.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\light.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

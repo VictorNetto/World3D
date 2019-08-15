@@ -9,12 +9,6 @@ static bool solidWasLoaded[NUM_SOLIDS];
 static unsigned int _vaos[NUM_SOLIDS];
 static unsigned int _nIndices[NUM_SOLIDS];
 
-Shader Primitive::m_basicShader = Shader("./res/basicShader.vs", "./res/basicShader.fs");
-Shader Primitive::m_lightingShader = Shader("./res/lightingShader.vs", "./res/lightingShader.fs");
-
-extern const glm::vec3 LIGHT_COLOR = { 1, 1, 1 };
-extern const glm::vec3 LIGHT_POSITION = { 0, 0, 0 };
-
 static void init_solidWasLoaded_array()
 {
 	for (int i = 0; i < NUM_SOLIDS; i++)
@@ -167,7 +161,7 @@ static void load_sphere_with_normals()
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sphereWithNormals::sizeof_indices, sphereWithNormals::indices, GL_STATIC_DRAW);
 }
 
-static void load_solid(Solid solid, unsigned int* vao, unsigned int* nIndices, bool* m_withlighting)
+static void load_solid(Solid solid, unsigned int* vao, unsigned int* nIndices)
 {
 	if (!solidWasLoaded[solid])
 	{
@@ -197,10 +191,10 @@ static void load_solid(Solid solid, unsigned int* vao, unsigned int* nIndices, b
 		}
 	}
 
-	if (solid == CONE || solid == CUBE || solid == CYLINDER || solid == SPHERE)
-		*m_withlighting = false;
-	else
-		*m_withlighting = true;
+	//if (solid == CONE || solid == CUBE || solid == CYLINDER || solid == SPHERE)
+	//	*m_withlighting = false;
+	//else
+	//	*m_withlighting = true;
 
 	*vao = _vaos[solid];
 	*nIndices = _nIndices[solid];
@@ -214,13 +208,14 @@ Primitive::Primitive()
 }
 
 Primitive::Primitive(float x, float y, float z, glm::mat4 rotationState,
-	float scaleX, float scaleY, float scaleZ,
+	float scaleX, float scaleY, float scaleZ, Light* light,
 	Solid solid)
 	: x{ x }, y{ y }, z{ z },
 	rotationState{ rotationState },
-	scaleX{ scaleX }, scaleY{ scaleY }, scaleZ{ scaleZ }
+	scaleX{ scaleX }, scaleY{ scaleY }, scaleZ{ scaleZ },
+	m_light { light }
 {
-	load_solid(solid, &m_vao, &m_nIndices, &m_withlighting);
+	load_solid(solid, &m_vao, &m_nIndices);
 }
 
 void Primitive::translate(float dx, float dy, float dz)
@@ -252,58 +247,23 @@ void Primitive::set_position(float newX, float newY, float newZ)
 	z = newZ;
 }
 
-void Primitive::draw(const glm::mat4& view, const glm::mat4& projection, const glm::vec3& viewPos) const
+void Primitive::draw() const
 {
-	if (m_withlighting)
-		draw_with_lighting(view, projection, viewPos);
-	else
-		draw_without_lighting(view, projection);
+	// set up the model transformation
+	glm::mat4 id4 = glm::mat4(1.0f);
+	glm::mat4 model = glm::translate(id4, glm::vec3(x, y, z));
+	model = model * rotationState * glm::scale(id4, glm::vec3(scaleX, scaleY, scaleZ));
+
+	m_light->get_shader().use();
+	m_light->get_shader().setMat4("model", model);
+	m_light->get_shader().setVec3("objectColor", color);
+
+	// finally draw the primitive
+	glBindVertexArray(m_vao);
+	glDrawElements(GL_TRIANGLES, m_nIndices, GL_UNSIGNED_INT, 0);
 }
 
 void Primitive::init()
 {
 	init_solidWasLoaded_array();
-
-	m_basicShader.build();
-	m_lightingShader.build();
-}
-
-void Primitive::draw_without_lighting(const glm::mat4& view, const glm::mat4& projection) const
-{
-	// set up the transformation
-	glm::mat4 id4 = glm::mat4(1.0f);
-	glm::mat4 model = glm::translate(id4, glm::vec3(x, y, z));
-	model = model * rotationState * glm::scale(id4, glm::vec3(scaleX, scaleY, scaleZ));
-
-	// use our basicShader and give it informations
-	m_basicShader.use();
-	m_basicShader.setMat4("model", model);
-	m_basicShader.setMat4("view", view);
-	m_basicShader.setMat4("projection", projection);
-	m_basicShader.setVec3("objectColor", glm::vec3(color.red, color.green, color.blue));
-
-	// finally draw the primitive
-	glBindVertexArray(m_vao);
-	glDrawElements(GL_TRIANGLES, m_nIndices, GL_UNSIGNED_INT, 0);
-}
-
-void Primitive::draw_with_lighting(const glm::mat4& view, const glm::mat4& projection, const glm::vec3& viewPos) const
-{
-	// set up the transformation
-	glm::mat4 id4 = glm::mat4(1.0f);
-	glm::mat4 model = glm::translate(id4, glm::vec3(x, y, z));
-	model = model * rotationState * glm::scale(id4, glm::vec3(scaleX, scaleY, scaleZ));
-
-	// use our lightingShader and give it informations
-	m_lightingShader.use();
-	m_lightingShader.setMat4("model", model);
-	m_lightingShader.setMat4("view", view);
-	m_lightingShader.setMat4("projection", projection);
-	m_lightingShader.setVec3("objectColor", glm::vec3(color.red, color.green, color.blue));
-	m_lightingShader.setVec3("lightColor", LIGHT_COLOR);
-	m_lightingShader.setVec3("lightPos", LIGHT_POSITION);
-	m_lightingShader.setVec3("viewPos", viewPos);
-	// finally draw the primitive
-	glBindVertexArray(m_vao);
-	glDrawElements(GL_TRIANGLES, m_nIndices, GL_UNSIGNED_INT, 0);
 }

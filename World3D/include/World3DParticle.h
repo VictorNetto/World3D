@@ -7,7 +7,8 @@ public:
 	World3DParticle();
 
 	void set_color(float r = 1.0f, float g = 1.0f, float b = 1.0f);
-	void draw(const glm::mat4& view, const glm::mat4& projection, const glm::vec3& viewPos);
+	void draw();
+	//void draw(const glm::mat4& view, const glm::mat4& projection, const glm::vec3& viewPos);
 
 	virtual float get_x() const { return 0.0f; };
 	virtual float get_y() const { return 0.0f; };
