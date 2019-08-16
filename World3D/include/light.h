@@ -13,7 +13,7 @@ class Light
 {
 public:
 	virtual Shader get_shader() = 0;
-	virtual void update_uniforms(const glm::mat4x4& view, const glm::mat4x4& projection) = 0;  // a function to be called before every draw
+	virtual void update_uniforms() = 0;  // a function to be called before every draw
 
 	static void init();
 };
@@ -21,13 +21,13 @@ public:
 class NoLight : public Light {
 public:
 	Shader get_shader();
-	void update_uniforms(const glm::mat4x4& view, const glm::mat4x4& model) {}
+	void update_uniforms() {}
 };
 
 class PhongLight : public Light {
 public:
 	Shader get_shader();
-	void update_uniforms(const glm::mat4x4& view, const glm::mat4x4& model);
+	void update_uniforms();
 
 	glm::vec3 position;
 	glm::vec3 ambientLight;

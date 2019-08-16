@@ -234,11 +234,8 @@ float World3D::delta_time() const
 
 void World3D::update_uniforms()
 {
-	glm::mat4 id4 = glm::mat4(1.0f);
-	glm::mat4 lightModel = glm::translate(id4, phongLight.position);
-
-	noLight.update_uniforms(m_camera.view(), id4);
-	phongLight.update_uniforms(m_camera.view(), lightModel);
+	noLight.update_uniforms();
+	phongLight.update_uniforms();
 
 	noLight.get_shader().use();
 	noLight.get_shader().setMat4("view", m_camera.view());
@@ -247,6 +244,7 @@ void World3D::update_uniforms()
 	phongLight.get_shader().use();
 	phongLight.get_shader().setMat4("view", m_camera.view());
 	phongLight.get_shader().setMat4("projection", m_camera.projection());
+	phongLight.get_shader().setVec3("viewPos", m_camera.position());
 }
 
 void World3D::add_particle(World3DParticle* particle)

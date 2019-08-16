@@ -24,9 +24,3 @@ void World3DParticle::draw()
 	m_object.set_position(get_x(), get_y(), get_z());
 	m_object.draw();
 }
-
-/*void World3DParticle::draw(const glm::mat4& view, const glm::mat4& projection, const glm::vec3& viewPos)
-{
-	m_object.set_position(get_x(), get_y(), get_z());
-	m_object.draw(view, projection, viewPos);
-}*/

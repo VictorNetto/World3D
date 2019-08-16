@@ -31,11 +31,11 @@ Shader PhongLight::get_shader()
 	return phongLightingShader;
 }
 
-void PhongLight::update_uniforms(const glm::mat4x4& view, const glm::mat4x4& model)
+void PhongLight::update_uniforms()
 {
 	get_shader().use();
 
-	get_shader().setVec3("light.position", glm::vec3(view * model * glm::vec4(position, 1.0f)));
+	get_shader().setVec3("light.position", position);
 	get_shader().setVec3("light.ambient", ambientLight * ambientLightIntensity);
 	get_shader().setVec3("light.diffuse", diffuseLight * diffuseLightIntensity);
 	get_shader().setVec3("light.specular", specularLight * specularLightIntensity);
