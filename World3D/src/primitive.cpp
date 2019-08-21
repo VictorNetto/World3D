@@ -247,6 +247,13 @@ void Primitive::set_position(float newX, float newY, float newZ)
 	z = newZ;
 }
 
+void Primitive::set_color(float r, float g, float b)
+{
+	color.r = r;
+	color.g = g;
+	color.b = b;
+}
+
 void Primitive::draw() const
 {
 	// set up the model transformation

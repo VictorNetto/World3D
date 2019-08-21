@@ -29,7 +29,7 @@ glm::mat4 Camera::view() const
 
 glm::mat4 Camera::projection() const
 {
-	return glm::perspective(glm::radians(m_fov), 1.0f, 0.1f, 100.0f);
+	return glm::perspective(glm::radians(m_fov), 1300.0f / 700.0f, 0.1f, 100.0f);
 }
 
 glm::vec3 Camera::position() const

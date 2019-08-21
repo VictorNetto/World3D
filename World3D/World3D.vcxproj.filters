@@ -57,10 +57,10 @@
     <ClInclude Include="include\solids\sphereWithNormals.h">
       <Filter>include\solids</Filter>
     </ClInclude>
-    <ClInclude Include="include\worldParticle.h">
+    <ClInclude Include="include\light.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\light.h">
+    <ClInclude Include="include\World3DObjects.h">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>
@@ -105,6 +105,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\light.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\World3DObjects.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

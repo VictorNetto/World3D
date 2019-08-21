@@ -26,6 +26,7 @@ int main()
 	float particlePositon[3] = { 1, 1, 1 };
 
 	extern PhongLight phongLight;
+	extern Object worldLight;
 	float lightPositon[3] = { 0, 0, 1 };
 	float ambientColor[3] = { 1, 1, 1 };
 	float diffuseColor[3] = { 1, 1, 1 };
@@ -37,9 +38,10 @@ int main()
 	ourWorld.lightVisible = true;
 	//ourWorld.floorVisible = true;
 
-	Particle pa;
+	Particle pa, pb;
 
 	ourWorld.add_particle(&pa);
+	ourWorld.add_particle(&pb);
 
 	while (!ourWorld.should_close())
 	{
@@ -49,6 +51,9 @@ int main()
 
 		// draw the objects in the world
 		ourWorld.draw();
+
+		pb.x = 0.65*cosf(glfwGetTime());
+		pb.y = 0.75*sinf(glfwGetTime());
 
 		// Start the Dear ImGui frame
 		ImGui_ImplOpenGL3_NewFrame();
@@ -74,7 +79,8 @@ int main()
 		ImGui::SliderFloat3("Intensities", intensities, 0.0f, 1.0f);
 		ImGui::End();
 
-		ourWorld.lightObejct.set_position(lightPositon[0], lightPositon[1], lightPositon[2]);
+		worldLight.set_position(lightPositon[0], lightPositon[1], lightPositon[2]);
+		worldLight.set_color(diffuseColor[0], diffuseColor[1], diffuseColor[2]);
 		phongLight.position = glm::vec3(lightPositon[0], lightPositon[1], lightPositon[2]);
 		phongLight.ambientLight = glm::vec3(ambientColor[0], ambientColor[1], ambientColor[2]);
 		phongLight.diffuseLight = glm::vec3(diffuseColor[0], diffuseColor[1], diffuseColor[2]);
@@ -83,6 +89,13 @@ int main()
 		phongLight.diffuseLightIntensity = intensities[1];
 		phongLight.specularLightIntensity = intensities[2];
 
+		ImGui::Begin("Hello, world!");
+		ImGui::Text("Application average %.1f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+		ImGui::Checkbox("World Axes Visible", &ourWorld.axesVisible);
+		ImGui::Checkbox("World Light Visible", &ourWorld.lightVisible);
+		ImGui::Checkbox("World Floor Visible", &ourWorld.floorVisible);
+		//ImGui::Text("Application average %.1f ms/frame (%.1f FPS)", 1000 * ourWorld.delta_time(), 1/ourWorld.delta_time());
+		ImGui::End();
 
 		// Render dear imgui into screen
 		ImGui::Render();

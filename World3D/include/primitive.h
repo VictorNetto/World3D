@@ -34,9 +34,9 @@ struct Primitive
 	void translate(float dx, float dy, float dz);
 	void rotate(float theta, float nx, float ny, float nz);
 	void set_position(float newX, float newY, float newZ);
+	void set_color(float r, float g, float b);
 
 	void draw() const;
-	//void draw(const glm::mat4& view, const glm::mat4& projection, const glm::vec3& viewPos) const;
 
 	static void init();
 
@@ -44,11 +44,4 @@ private:
 	unsigned int m_vao;
 	unsigned int m_nIndices;
 	Light* m_light;
-	//bool m_withlighting;
-	//static Shader m_basicShader;
-	//static Shader m_lightingShader;
-
-private:
-	//void draw_without_lighting(const glm::mat4& view, const glm::mat4& projection) const;
-	//void draw_with_lighting(const glm::mat4& view, const glm::mat4& projection, const glm::vec3& viewPos) const;
 };

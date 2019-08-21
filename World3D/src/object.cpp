@@ -52,9 +52,5 @@ void Object::draw() const
 void Object::set_color(float r, float g, float b)
 {
 	for (unsigned int i = 0; i < m_primitives.size(); i++)
-	{
-		m_primitives[i].color.r = r;
-		m_primitives[i].color.g = g;
-		m_primitives[i].color.b = b;
-	}
+		m_primitives[i].set_color(r, g, b);
 }

@@ -9,7 +9,7 @@ extern PhongLight phongLight;
 
 World3DParticle::World3DParticle()
 {
-	Primitive p{ 0, 0, 0, glm::mat4(1.0f), 0.25f, 0.25f, 0.25f, &phongLight, SPHERE_WITH_NORMALS };
+	Primitive p{ 0, 0, 0, glm::mat4(1.0f), 0.025f, 0.025f, 0.025f, &phongLight, SPHERE_WITH_NORMALS };
 	m_object.add_primitive(p);
 	m_object.set_color(1.0f, 1.0f, 1.0f);
 }

@@ -4,11 +4,15 @@
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include "imgui.h"
+
 #include "object.h"
 #include "frameRate.h"
 #include "camera.h"
 #include "light.h"
 #include "World3DParticle.h"
+
+
 
 class World3D
 {
@@ -21,7 +25,6 @@ public:
 	void clear() const;
 	void draw() const;
 	void swap_buffers() const;
-	void set_frame_rate(float frameRateToKeep);
 	float delta_time() const;
 
 	bool axesVisible = true;
@@ -32,14 +35,6 @@ private:
 	static FrameRate m_frameRate;
 	static Camera m_camera;
 	GLFWwindow* m_window;
-
-	// objects  ---------------------------------------------------------------
-	// ------------------------------------------------------------------------
-public:
-	Object lightObejct;
-private:
-	std::vector<Object> m_axes;
-	Object m_floor;
 
 	// light/shader stuff -----------------------------------------------------
 	// ------------------------------------------------------------------------

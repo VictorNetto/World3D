@@ -95,6 +95,7 @@
   <ItemGroup>
     <ClInclude Include="include\light.h" />
     <ClInclude Include="include\World3D.h" />
+    <ClInclude Include="include\World3DObjects.h" />
     <ClInclude Include="include\World3DParticle.h" />
     <ClInclude Include="include\camera.h" />
     <ClInclude Include="include\frameRate.h" />
@@ -108,7 +109,6 @@
     <ClInclude Include="include\solids\solids.h" />
     <ClInclude Include="include\solids\sphere.h" />
     <ClInclude Include="include\solids\sphereWithNormals.h" />
-    <ClInclude Include="include\worldParticle.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\DearImGui\imgui.cpp" />
@@ -119,6 +119,7 @@
     <ClCompile Include="..\DearImGui\imgui_widgets.cpp" />
     <ClCompile Include="src\light.cpp" />
     <ClCompile Include="src\World3D.cpp" />
+    <ClCompile Include="src\World3DObjects.cpp" />
     <ClCompile Include="src\World3DParticle.cpp" />
     <ClCompile Include="src\camera.cpp" />
     <ClCompile Include="src\frameRate.cpp" />
