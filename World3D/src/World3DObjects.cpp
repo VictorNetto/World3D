@@ -15,6 +15,7 @@ extern Object worldFloor = Object();
 
 extern NoLight noLight;
 extern PhongLight phongLight;
+extern PointLight pointLight;
 
 // worldAxes Primitives
 // x axis
@@ -76,7 +77,7 @@ Primitive p_floor;
 static void construct_worldFloor()
 {
 	p_floor = Primitive(0.0f, 0.0f, 0.0f, glm::mat4(1.0f),
-		10.0f, 10.0f, 0.001f, &phongLight, CUBE_WITH_NORMALS);
+		10.0f, 10.0f, 0.001f, &pointLight, CUBE_WITH_NORMALS);
 	p_floor.set_color(0.2f, 0.3f, 0.3f);
 	worldFloor.add_primitive(p_floor);
 }

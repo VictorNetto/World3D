@@ -109,6 +109,103 @@ namespace cubeWithNormals {
 		-1.0f,  0.0f,  0.0f
 	};
 
+	static float textCoordinates[] = {
+		// +Z
+		4.0f, 0.0f,
+		4.0f, 4.0f,
+		0.0f, 4.0f,
+
+		4.0f, 0.0f,
+		0.0f, 4.0f,
+		0.0f, 0.0f,
+
+		//--------
+		1.0f, 0.0f,
+		1.0f, 1.0f,
+		0.0f, 1.0f,
+
+		1.0f, 0.0f,
+		0.0f, 1.0f,
+		0.0f, 0.0f,
+
+		1.0f, 0.0f,
+		1.0f, 1.0f,
+		0.0f, 1.0f,
+
+		1.0f, 0.0f,
+		0.0f, 1.0f,
+		0.0f, 0.0f,
+
+		1.0f, 0.0f,
+		1.0f, 1.0f,
+		0.0f, 1.0f,
+
+		1.0f, 0.0f,
+		0.0f, 1.0f,
+		0.0f, 0.0f,
+
+		1.0f, 0.0f,
+		1.0f, 1.0f,
+		0.0f, 1.0f,
+
+		1.0f, 0.0f,
+		0.0f, 1.0f,
+		0.0f, 0.0f,
+
+		1.0f, 0.0f,
+		1.0f, 1.0f,
+		0.0f, 1.0f,
+
+		1.0f, 0.0f,
+		0.0f, 1.0f,
+		0.0f, 0.0f
+
+		//// -Z
+		// 0.5f,  0.5f, -0.5f,
+		//-0.5f,  0.5f, -0.5f,
+		//-0.5f, -0.5f, -0.5f,
+		//
+		// 0.5f,  0.5f, -0.5f,
+		//-0.5f, -0.5f, -0.5f,
+		// 0.5f, -0.5f, -0.5f,
+		//
+		// // +Y
+		//  0.5f,  0.5f, -0.5f,
+		// -0.5f,  0.5f, -0.5f,
+		// -0.5f,  0.5f,  0.5f,
+		//
+		//  0.5f,  0.5f, -0.5f,
+		// -0.5f,  0.5f,  0.5f,
+		//  0.5f,  0.5f,  0.5f,
+		//
+		//  // -Y
+		//	0.5f, -0.5f, -0.5f,
+		//  -0.5f, -0.5f, -0.5f,
+		//  -0.5f, -0.5f,  0.5f,
+		//
+		//	0.5f, -0.5f, -0.5f,
+		//  -0.5f, -0.5f,  0.5f,
+		//	0.5f, -0.5f,  0.5f,
+		//
+		//	// +X
+		//	 0.5f,  0.5f, -0.5f,
+		//	 0.5f,  0.5f,  0.5f,
+		//	 0.5f, -0.5f,  0.5f,
+		//
+		//	 0.5f,  0.5f, -0.5f,
+		//	 0.5f, -0.5f,  0.5f,
+		//	 0.5f, -0.5f, -0.5f,
+		//
+		//	 // -X
+		//	 -0.5f,  0.5f, -0.5f,
+		//	 -0.5f,  0.5f,  0.5f,
+		//	 -0.5f, -0.5f,  0.5f,
+		//
+		//	 -0.5f,  0.5f, -0.5f,
+		//	 -0.5f, -0.5f,  0.5f,
+		//	 -0.5f, -0.5f, -0.5f
+	};
+
 	static int indices[] = {
 		 0,  1,  2,
 		 3,  4,  5,
@@ -131,6 +228,7 @@ namespace cubeWithNormals {
 
 	static int sizeof_vertices = sizeof(vertices);
 	static int sizeof_normals = sizeof(normals);
+	static int sizeof_textCoordinates = sizeof(textCoordinates);
 	static int sizeof_indices = sizeof(indices);
 
 	static int N_INDICES = 36;

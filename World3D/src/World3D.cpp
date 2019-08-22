@@ -6,9 +6,12 @@
 
 #include "primitive.h"
 #include "World3DObjects.h"
+#include "stb_image.h"
 
 extern NoLight noLight;
 extern PhongLight phongLight;
+extern PointLight pointLight;
+extern Spotlight spotlight;
 
 extern Object worldAxes;
 extern Object worldLight;
@@ -41,6 +44,39 @@ static void ImGui_terminate()
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplGlfw_Shutdown();
 	ImGui::DestroyContext();
+}
+
+static void load_textures()
+{
+	unsigned int texture;
+	glGenTextures(1, &texture);
+	glBindTexture(GL_TEXTURE_2D, texture);
+	// set the texture wrapping parameters
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// set texture wrapping to GL_REPEAT (default wrapping method)
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	// set texture filtering parameters
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	int width, height, nrChannels;
+	stbi_set_flip_vertically_on_load(true); // tell stb_image.h to flip loaded texture's on the y-axis.
+	unsigned char* data = stbi_load("./res/floor.jpg", &width, &height, &nrChannels, 0);
+	if (data)
+	{
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+		glGenerateMipmap(GL_TEXTURE_2D);
+	}
+	else
+	{
+		std::cout << "Failed to load texture" << std::endl;
+	}
+	stbi_image_free(data);
+
+	spotlight.get_shader().use(); // don't forget to activate/use the shader before setting uniforms!
+	spotlight.get_shader().setInt("ourTexture", 0);
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, texture);
 }
 
 World3D::World3D()
@@ -101,6 +137,9 @@ World3D::World3D()
 	Primitive::init();
 	Light::init();
 	init_world_objects();
+
+	// load textures
+	load_textures();
 }
 
 World3D::~World3D()
@@ -171,6 +210,8 @@ void World3D::update_uniforms()
 {
 	noLight.update_uniforms();
 	phongLight.update_uniforms();
+	pointLight.update_uniforms();
+	spotlight.update_uniforms();
 
 	noLight.get_shader().use();
 	noLight.get_shader().setMat4("view", m_camera.view());
@@ -180,6 +221,17 @@ void World3D::update_uniforms()
 	phongLight.get_shader().setMat4("view", m_camera.view());
 	phongLight.get_shader().setMat4("projection", m_camera.projection());
 	phongLight.get_shader().setVec3("viewPos", m_camera.position());
+
+	pointLight.get_shader().use();
+	pointLight.get_shader().setMat4("view", m_camera.view());
+	pointLight.get_shader().setMat4("projection", m_camera.projection());
+	pointLight.get_shader().setVec3("viewPos", m_camera.position());
+
+
+	spotlight.get_shader().use();
+	spotlight.get_shader().setMat4("view", m_camera.view());
+	spotlight.get_shader().setMat4("projection", m_camera.projection());
+	spotlight.get_shader().setVec3("viewPos", m_camera.position());
 }
 
 void World3D::add_particle(World3DParticle* particle)

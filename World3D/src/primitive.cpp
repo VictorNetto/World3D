@@ -107,10 +107,10 @@ static void load_sphere()
 
 static void load_cube_with_normals()
 {
-	unsigned int cube_with_normals_vbo[2], cube_with_normals_vao, cube_with_normals_ebo;
+	unsigned int cube_with_normals_vbo[3], cube_with_normals_vao, cube_with_normals_ebo;
 	cubeWithNormals::load();
 	glGenVertexArrays(1, &cube_with_normals_vao);
-	glGenBuffers(2, cube_with_normals_vbo);
+	glGenBuffers(3, cube_with_normals_vbo);
 	glGenBuffers(1, &cube_with_normals_ebo);
 	_vaos[CUBE_WITH_NORMALS] = cube_with_normals_vao;
 	_nIndices[CUBE_WITH_NORMALS] =  cubeWithNormals::N_INDICES;
@@ -128,6 +128,12 @@ static void load_cube_with_normals()
 
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(1);
+
+	glBindBuffer(GL_ARRAY_BUFFER, cube_with_normals_vbo[2]);
+	glBufferData(GL_ARRAY_BUFFER, cubeWithNormals::sizeof_textCoordinates, cubeWithNormals::textCoordinates, GL_STATIC_DRAW);
+
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(2);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, cube_with_normals_ebo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, cubeWithNormals::sizeof_indices, cubeWithNormals::indices, GL_STATIC_DRAW);
@@ -252,6 +258,11 @@ void Primitive::set_color(float r, float g, float b)
 	color.r = r;
 	color.g = g;
 	color.b = b;
+}
+
+void Primitive::set_light(Light* light)
+{
+	m_light = light;
 }
 
 void Primitive::draw() const

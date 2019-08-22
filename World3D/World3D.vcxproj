@@ -94,6 +94,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="include\light.h" />
+    <ClInclude Include="include\stb_image.h" />
     <ClInclude Include="include\World3D.h" />
     <ClInclude Include="include\World3DObjects.h" />
     <ClInclude Include="include\World3DParticle.h" />
@@ -118,6 +119,7 @@
     <ClCompile Include="..\DearImGui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="..\DearImGui\imgui_widgets.cpp" />
     <ClCompile Include="src\light.cpp" />
+    <ClCompile Include="src\stb_image.cpp" />
     <ClCompile Include="src\World3D.cpp" />
     <ClCompile Include="src\World3DObjects.cpp" />
     <ClCompile Include="src\World3DParticle.cpp" />

@@ -35,6 +35,7 @@ struct Primitive
 	void rotate(float theta, float nx, float ny, float nz);
 	void set_position(float newX, float newY, float newZ);
 	void set_color(float r, float g, float b);
+	void set_light(Light* light);
 
 	void draw() const;
 

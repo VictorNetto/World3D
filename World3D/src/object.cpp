@@ -54,3 +54,9 @@ void Object::set_color(float r, float g, float b)
 	for (unsigned int i = 0; i < m_primitives.size(); i++)
 		m_primitives[i].set_color(r, g, b);
 }
+
+void Object::set_light(Light* light)
+{
+	for (unsigned int i = 0; i < m_primitives.size(); i++)
+		m_primitives[i].set_light(light);
+}

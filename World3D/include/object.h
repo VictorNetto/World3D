@@ -5,6 +5,7 @@
 #include <glm/glm.hpp>
 
 #include "primitive.h"
+#include "light.h"
 
 class Object
 {
@@ -17,6 +18,7 @@ public:
 	void set_position(float newX, float newY, float newZ);  // apply the new position to all object's primitives
 	void draw() const;
 	void set_color(float r, float g, float b);
+	void set_light(Light* light);
 
 private:
 	std::vector<Primitive> m_primitives;

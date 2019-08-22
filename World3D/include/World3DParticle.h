@@ -1,6 +1,7 @@
 #pragma once
 
 #include "object.h"
+#include "light.h"
 
 class World3DParticle {
 public:
@@ -8,7 +9,7 @@ public:
 
 	void set_color(float r = 1.0f, float g = 1.0f, float b = 1.0f);
 	void draw();
-	//void draw(const glm::mat4& view, const glm::mat4& projection, const glm::vec3& viewPos);
+	void set_light(Light* light);
 
 	virtual float get_x() const { return 0.0f; };
 	virtual float get_y() const { return 0.0f; };

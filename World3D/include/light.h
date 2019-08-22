@@ -37,3 +37,38 @@ public:
 	float diffuseLightIntensity;
 	float specularLightIntensity;
 };
+
+class PointLight : public Light {  // same as PhongLight but with an intensity attenuation
+public:
+	Shader get_shader();
+	void update_uniforms();
+
+	glm::vec3 position;
+	glm::vec3 ambientLight;
+	glm::vec3 diffuseLight;
+	glm::vec3 specularLight;
+	float ambientLightIntensity;
+	float diffuseLightIntensity;
+	float specularLightIntensity;
+	// attenuation
+	float constant, linear, quadradic;
+};
+
+class Spotlight : public Light {
+public:
+	Shader get_shader();
+	void update_uniforms();
+
+	glm::vec3 position;
+	glm::vec3 ambientLight;
+	glm::vec3 diffuseLight;
+	glm::vec3 specularLight;
+	float ambientLightIntensity;
+	float diffuseLightIntensity;
+	float specularLightIntensity;
+	// attenuation
+	float constant, linear, quadradic;
+	// view direction and cutoff
+	glm::vec3 direction;
+	float cutOff, outerCutOff;
+};
