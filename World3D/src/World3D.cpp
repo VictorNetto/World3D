@@ -16,6 +16,7 @@ extern Spotlight spotlight;
 extern Object worldAxes;
 extern Object worldLight;
 extern Object worldFloor;
+extern Object worldCube;
 
 FrameRate World3D::m_frameRate;
 Camera World3D::m_camera;
@@ -180,6 +181,8 @@ void World3D::clear() const
 
 void World3D::draw() const
 {
+	worldCube.draw();
+
 	// draw axes
 	if (axesVisible)
 		worldAxes.draw();

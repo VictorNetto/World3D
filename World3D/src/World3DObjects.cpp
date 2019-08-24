@@ -12,6 +12,7 @@ const float PI = atanf(1) * 4;
 extern Object worldAxes = Object();
 extern Object worldLight = Object();
 extern Object worldFloor = Object();
+extern Object worldCube = Object();
 
 extern NoLight noLight;
 extern PhongLight phongLight;
@@ -82,9 +83,22 @@ static void construct_worldFloor()
 	worldFloor.add_primitive(p_floor);
 }
 
+// worldFloor Primitive
+Primitive p_cube;
+
+static void construct_cube()
+{
+	p_cube = Primitive(-0.5f, -0.5f, 0.5f, glm::mat4(1.0f),
+		1.0f, 1.0f, 1.0f, &pointLight, CUBE_WITH_NORMALS);
+	//p_floor.set_color(0.2f, 0.3f, 0.3f);
+	worldCube.add_primitive(p_cube);
+}
+
 void init_world_objects()
 {
 	construct_worldAxes();
 	construct_worldLight();
 	construct_worldFloor();
+
+	construct_cube();
 }

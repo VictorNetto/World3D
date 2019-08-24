@@ -30,6 +30,7 @@ void whichLight_ImGui(Particle* p1, Particle* p2);
 
 extern Object worldLight;
 extern Object worldFloor;
+extern Object worldCube;
 
 extern NoLight noLight;
 extern PhongLight phongLight;
@@ -236,18 +237,22 @@ void whichLight_ImGui(Particle* p1, Particle* p2)
 
 	if (e == -1) {
 		worldFloor.set_light(&noLight);
+		worldCube.set_light(&noLight);
 		p1->set_light(&noLight);
 		p2->set_light(&noLight);
 	} else if (e == 0) {
 		worldFloor.set_light(&phongLight);
+		worldCube.set_light(&phongLight);
 		p1->set_light(&phongLight);
 		p2->set_light(&phongLight);
 	} else if (e == 1) {
 		worldFloor.set_light(&pointLight);
+		worldCube.set_light(&pointLight);
 		p1->set_light(&pointLight);
 		p2->set_light(&pointLight);
 	} else if (e == 2) {
 		worldFloor.set_light(&spotlight);
+		worldCube.set_light(&spotlight);
 		p1->set_light(&spotlight);
 		p2->set_light(&spotlight);
 	}

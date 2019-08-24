@@ -2,6 +2,7 @@
 
 in vec3 FragPos;
 in vec3 Normal;
+in vec2 TextCoord;
 
 out vec4 FragColor;
 
@@ -20,6 +21,8 @@ uniform Light light;
 
 uniform vec3 objectColor;
 uniform vec3 viewPos;
+
+uniform sampler2D ourTexture;
 
 float compute_attenuation(float d)
 {
@@ -44,6 +47,7 @@ void main()
     vec3 reflectDir = reflect(-lightDir, norm);
     vec3 specular = pow(max(dot(viewDir, reflectDir), 0.0), 32) * light.specular;
 
-    vec3 result = (ambient + diffuse + specular) * objectColor * attenuation;
+    vec3 result = (ambient + specular) * objectColor * attenuation;
+    result += diffuse * texture(ourTexture, TextCoord).rgb * attenuation;
     FragColor = vec4(result, 1.0);
 }
