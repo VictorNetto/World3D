@@ -97,12 +97,6 @@ copy .\res .\..\bin\$(ProjectName)\Release\res\</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\DearImGui\imgui.cpp" />
-    <ClCompile Include="..\DearImGui\imgui_demo.cpp" />
-    <ClCompile Include="..\DearImGui\imgui_draw.cpp" />
-    <ClCompile Include="..\DearImGui\imgui_impl_glfw.cpp" />
-    <ClCompile Include="..\DearImGui\imgui_impl_opengl3.cpp" />
-    <ClCompile Include="..\DearImGui\imgui_widgets.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>

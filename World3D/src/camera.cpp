@@ -1,5 +1,7 @@
 #include "camera.h"
 
+using namespace World3D;
+
 // Default camera values
 // initial values
 static const float PHY = 225.0f;

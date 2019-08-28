@@ -1,44 +1,196 @@
 #pragma once
 
-namespace cube {
+namespace VertexData {
 
-	static float vertices[] = {
-		 0.5f,  0.5f,  0.5f,
-		-0.5f,  0.5f,  0.5f,
-		-0.5f, -0.5f,  0.5f,
-		 0.5f, -0.5f,  0.5f,
-		 0.5f,  0.5f, -0.5f,
-		-0.5f,  0.5f, -0.5f,
-		-0.5f, -0.5f, -0.5f,
-		 0.5f, -0.5f, -0.5f,
-	};
+	namespace cube {
 
-	static int indices[] = {
-		// face +x
-		4, 0, 3,
-		3, 7, 4,
-		// face -x
-		5, 1, 2,
-		2, 6, 5,
-		// face +y
-		5, 1, 0,
-		0, 4, 5,
-		// face -y
-		6, 2, 3,
-		3, 7, 6,
-		// face +z
-		0, 1, 2,
-		2, 3, 0,
-		// face -z
-		4, 5, 6,
-		6, 7, 4
-	};
+		static float vertices[] = {
+			// +Z
+			 0.5f,  0.5f,  0.5f,
+			-0.5f,  0.5f,  0.5f,
+			-0.5f, -0.5f,  0.5f,
 
-	static int const N_INDICES = 36;
+			 0.5f,  0.5f,  0.5f,
+			-0.5f, -0.5f,  0.5f,
+			 0.5f, -0.5f,  0.5f,
 
-	static int sizeof_vertices = sizeof(vertices);
-	static int sizeof_indices = sizeof(indices);
+			 // -Z
+			  0.5f,  0.5f, -0.5f,
+			 -0.5f,  0.5f, -0.5f,
+			 -0.5f, -0.5f, -0.5f,
 
-	static void load() {}
+			  0.5f,  0.5f, -0.5f,
+			 -0.5f, -0.5f, -0.5f,
+			  0.5f, -0.5f, -0.5f,
+
+			  // +Y
+			   0.5f,  0.5f, -0.5f,
+			  -0.5f,  0.5f, -0.5f,
+			  -0.5f,  0.5f,  0.5f,
+
+			   0.5f,  0.5f, -0.5f,
+			  -0.5f,  0.5f,  0.5f,
+			   0.5f,  0.5f,  0.5f,
+
+			   // -Y
+				0.5f, -0.5f, -0.5f,
+			   -0.5f, -0.5f, -0.5f,
+			   -0.5f, -0.5f,  0.5f,
+
+				0.5f, -0.5f, -0.5f,
+			   -0.5f, -0.5f,  0.5f,
+				0.5f, -0.5f,  0.5f,
+
+				// +X
+				 0.5f,  0.5f, -0.5f,
+				 0.5f,  0.5f,  0.5f,
+				 0.5f, -0.5f,  0.5f,
+
+				 0.5f,  0.5f, -0.5f,
+				 0.5f, -0.5f,  0.5f,
+				 0.5f, -0.5f, -0.5f,
+
+				 // -X
+				 -0.5f,  0.5f, -0.5f,
+				 -0.5f,  0.5f,  0.5f,
+				 -0.5f, -0.5f,  0.5f,
+
+				 -0.5f,  0.5f, -0.5f,
+				 -0.5f, -0.5f,  0.5f,
+				 -0.5f, -0.5f, -0.5f
+		};
+
+		static float normals[] = {
+			// +Z
+			 0.0f,  0.0f,  1.0f,
+			 0.0f,  0.0f,  1.0f,
+			 0.0f,  0.0f,  1.0f,
+			 0.0f,  0.0f,  1.0f,
+			 0.0f,  0.0f,  1.0f,
+			 0.0f,  0.0f,  1.0f,
+
+
+			 // -Z
+			  0.0f,  0.0f, -1.0f,
+			  0.0f,  0.0f, -1.0f,
+			  0.0f,  0.0f, -1.0f,
+			  0.0f,  0.0f, -1.0f,
+			  0.0f,  0.0f, -1.0f,
+			  0.0f,  0.0f, -1.0f,
+
+			  // +Y
+			   0.0f,  1.0f,  0.0f,
+			   0.0f,  1.0f,  0.0f,
+			   0.0f,  1.0f,  0.0f,
+			   0.0f,  1.0f,  0.0f,
+			   0.0f,  1.0f,  0.0f,
+			   0.0f,  1.0f,  0.0f,
+
+			   // -Y
+				0.0f, -1.0f,  0.0f,
+				0.0f, -1.0f,  0.0f,
+				0.0f, -1.0f,  0.0f,
+				0.0f, -1.0f,  0.0f,
+				0.0f, -1.0f,  0.0f,
+				0.0f, -1.0f,  0.0f,
+
+				// +X
+				 1.0f,  0.0f,  0.0f,
+				 1.0f,  0.0f,  0.0f,
+				 1.0f,  0.0f,  0.0f,
+				 1.0f,  0.0f,  0.0f,
+				 1.0f,  0.0f,  0.0f,
+				 1.0f,  0.0f,  0.0f,
+
+				 // -X
+				 -1.0f,  0.0f,  0.0f,
+				 -1.0f,  0.0f,  0.0f,
+				 -1.0f,  0.0f,  0.0f,
+				 -1.0f,  0.0f,  0.0f,
+				 -1.0f,  0.0f,  0.0f,
+				 -1.0f,  0.0f,  0.0f
+		};
+
+		static float textCoordinates[] = {
+			// +Z
+			4.0f, 0.0f,
+			4.0f, 4.0f,
+			0.0f, 4.0f,
+
+			4.0f, 0.0f,
+			0.0f, 4.0f,
+			0.0f, 0.0f,
+
+			//--------
+			1.0f, 0.0f,
+			1.0f, 1.0f,
+			0.0f, 1.0f,
+
+			1.0f, 0.0f,
+			0.0f, 1.0f,
+			0.0f, 0.0f,
+
+			1.0f, 0.0f,
+			1.0f, 1.0f,
+			0.0f, 1.0f,
+
+			1.0f, 0.0f,
+			0.0f, 1.0f,
+			0.0f, 0.0f,
+
+			1.0f, 0.0f,
+			1.0f, 1.0f,
+			0.0f, 1.0f,
+
+			1.0f, 0.0f,
+			0.0f, 1.0f,
+			0.0f, 0.0f,
+
+			1.0f, 0.0f,
+			1.0f, 1.0f,
+			0.0f, 1.0f,
+
+			1.0f, 0.0f,
+			0.0f, 1.0f,
+			0.0f, 0.0f,
+
+			1.0f, 0.0f,
+			1.0f, 1.0f,
+			0.0f, 1.0f,
+
+			1.0f, 0.0f,
+			0.0f, 1.0f,
+			0.0f, 0.0f
+		};
+
+		static int indices[] = {
+			 0,  1,  2,
+			 3,  4,  5,
+
+			 6,  7,  8,
+			 9, 10, 11,
+
+			12, 13, 14,
+			15, 16, 17,
+
+			18, 19, 20,
+			21, 22, 23,
+
+			24, 25, 26,
+			27, 28, 29,
+
+			30, 31, 32,
+			33, 34, 35
+		};
+
+		static int sizeof_vertices = sizeof(vertices);
+		static int sizeof_normals = sizeof(normals);
+		static int sizeof_textCoordinates = sizeof(textCoordinates);
+		static int sizeof_indices = sizeof(indices);
+
+		static int N_INDICES = 36;
+
+		static void load() {}
+	}
 
 }

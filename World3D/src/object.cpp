@@ -1,35 +1,45 @@
 #include "object.h"
 
+using namespace World3D;
+
 Object::Object()
 	: m_primitives{}
 {}
 
-void Object::add_primitive(const Primitive& primitive)
+void Object::add_primitive(Primitive* primitive)
 {
 	m_primitives.push_back(primitive);
 }
 
-void Object::translate(float dx, float dy, float dz)
+void Object::translate(const glm::vec3& displacement)
 {
 	for (unsigned int i = 0; i < m_primitives.size(); i++)
 	{
-		m_primitives[i].translate(dx, dy, dz);
+		m_primitives[i]->translate(displacement);
 	}
 }
 
-void Object::rotate(float theta, float nx, float ny, float nz)
+void Object::scale(const glm::vec3& scaleAmount)
 {
 	for (unsigned int i = 0; i < m_primitives.size(); i++)
 	{
-		m_primitives[i].rotate(theta, nx, ny, nz);
+		m_primitives[i]->scale(scaleAmount);
 	}
 }
 
-void Object::set_position(float newX, float newY, float newZ)
+void Object::rotate(const glm::vec3& rotationAxis, float angle)
 {
 	for (unsigned int i = 0; i < m_primitives.size(); i++)
 	{
-		m_primitives[i].set_position(newX, newY, newZ);
+		m_primitives[i]->rotate(rotationAxis, angle);
+	}
+}
+
+void Object::rotate(float angle)
+{
+	for (unsigned int i = 0; i < m_primitives.size(); i++)
+	{
+		m_primitives[i]->rotate(angle);
 	}
 }
 
@@ -37,26 +47,18 @@ void Object::draw() const
 {
 	for (unsigned int i = 0; i < m_primitives.size(); i++)
 	{
-		m_primitives[i].draw();
+		m_primitives[i]->draw();
 	}
 }
 
-/*void Object::draw(const glm::mat4& view, const glm::mat4& projection, const glm::vec3& viewPos) const
+void Object::set_color(const glm::vec3& newColor)
 {
 	for (unsigned int i = 0; i < m_primitives.size(); i++)
-	{
-		m_primitives[i].draw(view, projection, viewPos);
-	}
-}*/
-
-void Object::set_color(float r, float g, float b)
-{
-	for (unsigned int i = 0; i < m_primitives.size(); i++)
-		m_primitives[i].set_color(r, g, b);
+		m_primitives[i]->color = newColor;
 }
 
 void Object::set_light(Light* light)
 {
 	for (unsigned int i = 0; i < m_primitives.size(); i++)
-		m_primitives[i].set_light(light);
+		m_primitives[i]->light = light;
 }

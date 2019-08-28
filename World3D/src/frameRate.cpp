@@ -1,5 +1,7 @@
 #include "frameRate.h"
 
+using namespace World3D;
+
 FrameRate::FrameRate()
 	: deltaTime{ 0 }, m_oldTime{ (float)glfwGetTime() }
 {

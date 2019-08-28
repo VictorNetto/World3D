@@ -1,5 +1,7 @@
 #include "shader.h"
 
+using namespace World3D;
+
 // utility function for checking shader compilation/linking errors.
 // ------------------------------------------------------------------------
 static void checkCompileErrors(GLuint shader, std::string type);

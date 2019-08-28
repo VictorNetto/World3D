@@ -1,9 +1,11 @@
 #include "light.h"
 
+using namespace World3D;
+
 Shader noLightShader = Shader("./res/noLight.vs", "./res/noLight.fs");
 Shader phongLightingShader = Shader("./res/phongLighting.vs", "./res/phongLighting.fs");
 Shader pointLightingShader = Shader("./res/pointLighting.vs", "./res/pointLighting.fs");
-Shader spotlightShader = Shader("./res/spotlight.vs", "./res/spotlight.fs");
+Shader spotlightShader = Shader("./res/spotlight.vs", "./res/spotlight.fs"); 
 
 extern PhongLight phongLight = PhongLight();
 extern NoLight noLight = NoLight();

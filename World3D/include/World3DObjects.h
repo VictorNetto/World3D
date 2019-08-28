@@ -1,3 +1,7 @@
 #pragma once
 
-void init_world_objects();
+namespace World3D {
+
+	void init_world_objects();
+
+}

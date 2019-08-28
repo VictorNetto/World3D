@@ -6,15 +6,19 @@
 
 #include <GLFW/glfw3.h>
 
-class FrameRate
-{
-public:
-	FrameRate();
+namespace World3D {
 
-	void update();
+	class FrameRate
+	{
+	public:
+		FrameRate();
 
-	float deltaTime;  // seconds
+		void update();
 
-private:
-	float m_oldTime;
-};
+		float deltaTime;  // seconds
+
+	private:
+		float m_oldTime;
+	};
+
+}

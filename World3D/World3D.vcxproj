@@ -93,23 +93,21 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="include\light.h" />
-    <ClInclude Include="include\stb_image.h" />
-    <ClInclude Include="include\World3D.h" />
+    <ClInclude Include="include\world.h" />
+    <ClInclude Include="include\world3D.h" />
     <ClInclude Include="include\World3DObjects.h" />
-    <ClInclude Include="include\World3DParticle.h" />
     <ClInclude Include="include\camera.h" />
     <ClInclude Include="include\frameRate.h" />
+    <ClInclude Include="include\light.h" />
     <ClInclude Include="include\object.h" />
     <ClInclude Include="include\primitive.h" />
     <ClInclude Include="include\shader.h" />
     <ClInclude Include="include\solids\cone.h" />
     <ClInclude Include="include\solids\cube.h" />
-    <ClInclude Include="include\solids\cubeWithNormals.h" />
     <ClInclude Include="include\solids\cylinder.h" />
     <ClInclude Include="include\solids\solids.h" />
     <ClInclude Include="include\solids\sphere.h" />
-    <ClInclude Include="include\solids\sphereWithNormals.h" />
+    <ClInclude Include="include\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\DearImGui\imgui.cpp" />
@@ -118,16 +116,16 @@
     <ClCompile Include="..\DearImGui\imgui_impl_glfw.cpp" />
     <ClCompile Include="..\DearImGui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="..\DearImGui\imgui_widgets.cpp" />
-    <ClCompile Include="src\light.cpp" />
-    <ClCompile Include="src\stb_image.cpp" />
-    <ClCompile Include="src\World3D.cpp" />
+    <ClCompile Include="src\world.cpp" />
+    <ClCompile Include="src\world3D.cpp" />
     <ClCompile Include="src\World3DObjects.cpp" />
-    <ClCompile Include="src\World3DParticle.cpp" />
     <ClCompile Include="src\camera.cpp" />
     <ClCompile Include="src\frameRate.cpp" />
+    <ClCompile Include="src\light.cpp" />
     <ClCompile Include="src\object.cpp" />
     <ClCompile Include="src\primitive.cpp" />
     <ClCompile Include="src\shader.cpp" />
+    <ClCompile Include="src\stb_image.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

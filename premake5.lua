@@ -65,8 +65,7 @@ project "Demo"
 
 	files 
 	{
-		"%{prj.name}/**.cpp",
-		"%{wks.location}/DearImGui/**.cpp"
+		"%{prj.name}/**.cpp"
 	}
 
 	includedirs

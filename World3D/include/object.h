@@ -7,19 +7,27 @@
 #include "primitive.h"
 #include "light.h"
 
-class Object
-{
-public:
-	Object();
+namespace World3D {
 
-	void add_primitive(const Primitive& primitive);
-	void translate(float dx, float dy, float dz);
-	void rotate(float theta, float nx, float ny, float nz);
-	void set_position(float newX, float newY, float newZ);  // apply the new position to all object's primitives
-	void draw() const;
-	void set_color(float r, float g, float b);
-	void set_light(Light* light);
+	class Object
+	{
+	public:
+		Object();
 
-private:
-	std::vector<Primitive> m_primitives;
-};
+		void add_primitive(Primitive* primitive);
+
+		void translate(const glm::vec3& displacement);
+		void scale(const glm::vec3& scaleAmount);
+		void rotate(const glm::vec3& rotationAxis, float angle);
+		void rotate(float angle);
+
+		void draw() const;
+
+		void set_color(const glm::vec3& newColor);
+		void set_light(Light* light);
+
+	private:
+		std::vector<Primitive*> m_primitives;
+	};
+
+}

@@ -15,16 +15,16 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\World3D.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\World3DParticle.h">
+    <ClInclude Include="include\World3DObjects.h">
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="include\camera.h">
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="include\frameRate.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\light.h">
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="include\object.h">
@@ -39,31 +39,25 @@
     <ClInclude Include="include\solids\cone.h">
       <Filter>include\solids</Filter>
     </ClInclude>
-    <ClInclude Include="include\solids\cube.h">
-      <Filter>include\solids</Filter>
-    </ClInclude>
-    <ClInclude Include="include\solids\cubeWithNormals.h">
-      <Filter>include\solids</Filter>
-    </ClInclude>
     <ClInclude Include="include\solids\cylinder.h">
       <Filter>include\solids</Filter>
     </ClInclude>
     <ClInclude Include="include\solids\solids.h">
       <Filter>include\solids</Filter>
     </ClInclude>
+    <ClInclude Include="include\stb_image.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\solids\cube.h">
+      <Filter>include\solids</Filter>
+    </ClInclude>
     <ClInclude Include="include\solids\sphere.h">
       <Filter>include\solids</Filter>
     </ClInclude>
-    <ClInclude Include="include\solids\sphereWithNormals.h">
-      <Filter>include\solids</Filter>
-    </ClInclude>
-    <ClInclude Include="include\light.h">
+    <ClInclude Include="include\world.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="include\World3DObjects.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="include\stb_image.h">
+    <ClInclude Include="include\world3D.h">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>
@@ -86,16 +80,16 @@
     <ClCompile Include="..\DearImGui\imgui_widgets.cpp">
       <Filter>DearImGui</Filter>
     </ClCompile>
-    <ClCompile Include="src\World3D.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\World3DParticle.cpp">
+    <ClCompile Include="src\World3DObjects.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\camera.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\frameRate.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\light.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\object.cpp">
@@ -107,13 +101,13 @@
     <ClCompile Include="src\shader.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\light.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\World3DObjects.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="src\stb_image.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\world.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\world3D.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
