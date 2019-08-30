@@ -43,6 +43,38 @@ void Object::rotate(float angle)
 	}
 }
 
+void Object::set_position(const glm::vec3& position)
+{
+	for (unsigned int i = 0; i < m_primitives.size(); i++)
+	{
+		m_primitives[i]->position() = position;
+	}
+}
+
+void Object::set_scale(const glm::vec3& scale)
+{
+	for (unsigned int i = 0; i < m_primitives.size(); i++)
+	{
+		m_primitives[i]->scale() = scale;
+	}
+}
+
+void Object::set_rotation_axis(const glm::vec3& rotationAxis)
+{
+	for (unsigned int i = 0; i < m_primitives.size(); i++)
+	{
+		m_primitives[i]->rotation_axis() = rotationAxis;
+	}
+}
+
+void Object::set_rotation_angle(float angle)
+{
+	for (unsigned int i = 0; i < m_primitives.size(); i++)
+	{
+		m_primitives[i]->rotation_angle() = angle;
+	}
+}
+
 void Object::draw() const
 {
 	for (unsigned int i = 0; i < m_primitives.size(); i++)

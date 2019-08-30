@@ -27,7 +27,7 @@ Shader& NoLight::get_shader()
 PhongLight::PhongLight()
 	: position{ glm::vec3(0, 0, 1) },
 	ambientLight{ glm::vec3(1) }, diffuseLight{ glm::vec3(1) }, specularLight{ glm::vec3(1) },
-	ambientLightIntensity{ 0.2 }, diffuseLightIntensity{ 0.5 }, specularLightIntensity{ 0.8 }
+	ambientLightIntensity{ 0.0 }, diffuseLightIntensity{ 1.0 }, specularLightIntensity{ 0.0 }
 {
 }
 

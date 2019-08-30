@@ -23,6 +23,15 @@ namespace World3D {
 		void rotate(const glm::vec3& rotationAxis, float angle);
 		void rotate(float angle);
 
+		// Functions to set position, scale and rotation of objects
+		// Corresponding functions will be called for every
+		// objects's primitives. Most usefull for objects built with
+		// just one primitive
+		void set_position(const glm::vec3& position);
+		void set_scale(const glm::vec3& scale);
+		void set_rotation_axis(const glm::vec3& rotationAxis);
+		void set_rotation_angle(float angle);
+
 		void draw() const;
 
 		void set_color(const glm::vec3& newColor);
