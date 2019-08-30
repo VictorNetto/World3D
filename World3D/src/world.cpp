@@ -9,52 +9,12 @@ using namespace World3D;
 #include "World3DObjects.h"
 #include "stb_image.h"
 
-extern NoLight noLight;
-extern PhongLight phongLight;
-extern PointLight pointLight;
-extern Spotlight spotlight;
-
-extern Object worldFloor;
-
 extern GLFWwindow* glfwWindow;
 
 FrameRate World::m_frameRate;
 Camera World::m_camera;
 
 static void framebuffer_size_callback(GLFWwindow* window, int width, int height);
-
-static void load_textures()
-{
-	unsigned int texture;
-	glGenTextures(1, &texture);
-	glBindTexture(GL_TEXTURE_2D, texture);
-	// set the texture wrapping parameters
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// set texture wrapping to GL_REPEAT (default wrapping method)
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	// set texture filtering parameters
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-	int width, height, nrChannels;
-	stbi_set_flip_vertically_on_load(true); // tell stb_image.h to flip loaded texture's on the y-axis.
-	unsigned char* data = stbi_load("./res/floor.jpg", &width, &height, &nrChannels, 0);
-	if (data)
-	{
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-		glGenerateMipmap(GL_TEXTURE_2D);
-	}
-	else
-	{
-		std::cout << "Failed to load texture" << std::endl;
-	}
-	stbi_image_free(data);
-
-	spotlight.get_shader().use(); // don't forget to activate/use the shader before setting uniforms!
-	spotlight.get_shader().setInt("ourTexture", 0);
-
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, texture);
-}
 
 World& World::get_instance()
 {
@@ -72,12 +32,6 @@ World::World()
 	glfwSetMouseButtonCallback(m_window, mouse_button_callback);
 	glfwSetCursorPosCallback(m_window, cursor_position_callback);
 	glfwSetScrollCallback(m_window, scroll_callback);
-
-	// Initializes subsystems
-	Light::init();
-
-	// load textures
-	load_textures();
 }
 
 World::~World()
@@ -104,7 +58,7 @@ void World::update()
 	update_uniforms();
 }
 
-void World::clear() const
+void World::clear_buffers() const
 {
 	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -112,10 +66,10 @@ void World::clear() const
 
 void World::draw() const
 {
-
-	// draw floor
-	if (floorVisible)
-		worldFloor.draw();
+	// draws attached objects
+	for (Object* object : m_attachedObjects) {
+		if (object->visible) object->draw();
+	}
 }
 
 void World::swap_buffers() const
@@ -128,32 +82,35 @@ float World::delta_time() const
 	return m_frameRate.deltaTime;
 }
 
+void World::attach_object(Object* object)
+{
+	// Attaches object to the World
+	// Attached objects will be drawn every frame
+	if (object) {
+		m_attachedObjects.push_back(object);
+	}
+}
+
+void World::install_light(Light* light)
+{
+	// Adds light to the World and builds its Shader
+	if (light) {
+		light->get_shader().build();
+		m_installedLights.push_back(light);
+	}
+}
+
 void World::update_uniforms()
 {
-	noLight.update_uniforms();
-	phongLight.update_uniforms();
-	pointLight.update_uniforms();
-	spotlight.update_uniforms();
-
-	noLight.get_shader().use();
-	noLight.get_shader().setMat4("view", m_camera.view());
-	noLight.get_shader().setMat4("projection", m_camera.projection());
-
-	phongLight.get_shader().use();
-	phongLight.get_shader().setMat4("view", m_camera.view());
-	phongLight.get_shader().setMat4("projection", m_camera.projection());
-	phongLight.get_shader().setVec3("viewPos", m_camera.position());
-
-	pointLight.get_shader().use();
-	pointLight.get_shader().setMat4("view", m_camera.view());
-	pointLight.get_shader().setMat4("projection", m_camera.projection());
-	pointLight.get_shader().setVec3("viewPos", m_camera.position());
-
-
-	spotlight.get_shader().use();
-	spotlight.get_shader().setMat4("view", m_camera.view());
-	spotlight.get_shader().setMat4("projection", m_camera.projection());
-	spotlight.get_shader().setVec3("viewPos", m_camera.position());
+	for (Light* light : m_installedLights) {
+		// Updates uniforms that light owns
+		light->update_uniforms();
+		
+		// Updates uniforms related to the World
+		light->get_shader().use();
+		light->get_shader().setMat4("view", m_camera.view());
+		light->get_shader().setMat4("projection", m_camera.projection());
+	}
 }
 
 void World::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)

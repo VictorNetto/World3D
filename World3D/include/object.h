@@ -14,6 +14,8 @@ namespace World3D {
 	public:
 		Object();
 
+		bool visible = true;
+
 		void add_primitive(Primitive* primitive);
 
 		void translate(const glm::vec3& displacement);

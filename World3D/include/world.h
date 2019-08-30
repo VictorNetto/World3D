@@ -32,26 +32,33 @@ namespace World3D {
 		~World();
 
 	public:
-
 		bool should_close() const;
 		void update();
-		void clear() const;
+		void clear_buffers() const;
 		void draw() const;
 		void swap_buffers() const;
 		float delta_time() const;
-
-		bool floorVisible = true;
 
 	private:
 		static FrameRate m_frameRate;
 		static Camera m_camera;
 		GLFWwindow* m_window;
 
+		// objects stuff ----------------------------------------------------------
+		// ------------------------------------------------------------------------
+	public:
+		void attach_object(Object* object);
+	private:
+		std::vector<Object*> m_attachedObjects;
+
 		// light/shader stuff -----------------------------------------------------
 		// ------------------------------------------------------------------------
+	public:
+		void install_light(Light* light);
 	private:
-		static void update_uniforms();
-
+		std::vector<Light*> m_installedLights;  // Lights used in the World that
+		                                        // will be updated every frame
+		void update_uniforms();
 		// callback functions -----------------------------------------------------
 		// ------------------------------------------------------------------------
 	private:

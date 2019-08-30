@@ -14,21 +14,21 @@ namespace World3D {
 	class Light
 	{
 	public:
-		virtual Shader get_shader() = 0;
+		virtual Shader& get_shader() = 0;
 		virtual void update_uniforms() = 0;  // a function to be called before every draw
-
-		static void init();
 	};
 
 	class NoLight : public Light {
 	public:
-		Shader get_shader();
+		Shader& get_shader();
 		void update_uniforms() {}
 	};
 
 	class PhongLight : public Light {
 	public:
-		Shader get_shader();
+		PhongLight();
+
+		Shader& get_shader();
 		void update_uniforms();
 
 		glm::vec3 position;
@@ -42,7 +42,9 @@ namespace World3D {
 
 	class PointLight : public Light {  // same as PhongLight but with an intensity attenuation
 	public:
-		Shader get_shader();
+		PointLight();
+
+		Shader& get_shader();
 		void update_uniforms();
 
 		glm::vec3 position;
@@ -58,7 +60,9 @@ namespace World3D {
 
 	class Spotlight : public Light {
 	public:
-		Shader get_shader();
+		Spotlight();
+
+		Shader& get_shader();
 		void update_uniforms();
 
 		glm::vec3 position;

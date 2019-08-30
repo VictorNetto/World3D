@@ -42,7 +42,6 @@ void World3D::terminate()
 	terminate_ImGui();
 }
 
-
 static void init_GLFW()
 {
 	// glfw: initialize and configure

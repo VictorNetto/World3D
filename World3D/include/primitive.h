@@ -36,7 +36,7 @@ namespace World3D {
 	class Primitive
 	{
 	protected:
-		Primitive() {}
+		Primitive() : light{ nullptr }, m_vao{ 0 }, m_nIndices{ 0 } {}
 	public:
 		Primitive(Light* light, Solid solid);
 
@@ -72,7 +72,7 @@ namespace World3D {
 	class BasicPrimitive : public Primitive
 	{
 	public:
-		BasicPrimitive() {}
+		BasicPrimitive() : m_rotationAngle { 0 } {}
 
 		BasicPrimitive(glm::vec3 position, glm::vec3 scale,
 			glm::vec3 rotationAxis, float rotationAngle,

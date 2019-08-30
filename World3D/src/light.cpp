@@ -12,20 +12,26 @@ extern NoLight noLight = NoLight();
 extern PointLight pointLight = PointLight();
 extern Spotlight spotlight = Spotlight();
 
-void Light::init()
-{
-	noLightShader.build();
-	phongLightingShader.build();
-	pointLightingShader.build();
-	spotlightShader.build();
-}
 
-Shader NoLight::get_shader()
+// NoLight --------------------------------------------------------------------
+// ----------------------------------------------------------------------------
+
+Shader& NoLight::get_shader()
 {
 	return noLightShader;
 }
 
-Shader PhongLight::get_shader()
+// PhongLight -----------------------------------------------------------------
+// ----------------------------------------------------------------------------
+
+PhongLight::PhongLight()
+	: position{ glm::vec3(0, 0, 1) },
+	ambientLight{ glm::vec3(1) }, diffuseLight{ glm::vec3(1) }, specularLight{ glm::vec3(1) },
+	ambientLightIntensity{ 0.2 }, diffuseLightIntensity{ 0.5 }, specularLightIntensity{ 0.8 }
+{
+}
+
+Shader& PhongLight::get_shader()
 {
 	return phongLightingShader;
 }
@@ -40,7 +46,18 @@ void PhongLight::update_uniforms()
 	get_shader().setVec3("light.specular", specularLight * specularLightIntensity);
 }
 
-Shader PointLight::get_shader()
+// PointLight -----------------------------------------------------------------
+// ----------------------------------------------------------------------------
+
+PointLight::PointLight()
+	: position{ glm::vec3(0, 0, 1) },
+	ambientLight{ glm::vec3(1) }, diffuseLight{ glm::vec3(1) }, specularLight{ glm::vec3(1) },
+	ambientLightIntensity{ 0.2 }, diffuseLightIntensity{ 0.5 }, specularLightIntensity{ 0.8 },
+	constant{ 1 }, linear{ 1 }, quadradic{ 1 }
+{
+}
+
+Shader& PointLight::get_shader()
 {
 	return pointLightingShader;
 }
@@ -58,7 +75,19 @@ void PointLight::update_uniforms()
 	get_shader().setFloat("light.quadradic", quadradic);
 }
 
-Shader Spotlight::get_shader()
+// SpotLight ------------------------------------------------------------------
+// ----------------------------------------------------------------------------
+
+Spotlight::Spotlight()
+	:position{ glm::vec3(0, 0, 1) },
+	ambientLight{ glm::vec3(1) }, diffuseLight{ glm::vec3(1) }, specularLight{ glm::vec3(1) },
+	ambientLightIntensity{ 0.2 }, diffuseLightIntensity{ 0.5 }, specularLightIntensity{ 0.8 },
+	constant{ 1 }, linear{ 1 }, quadradic{ 1 },
+	direction{ glm::vec3(0, 0, -1) }, cutOff{ 0 }, outerCutOff{ 0 }
+{
+}
+
+Shader& Spotlight::get_shader()
 {
 	return spotlightShader;
 }
