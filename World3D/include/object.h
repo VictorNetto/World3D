@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include <glm/glm.hpp>
+#include <glm/vec3.hpp>
 
 #include "primitive.h"
 #include "light.h"
@@ -16,29 +16,71 @@ namespace World3D {
 
 		bool visible = true;
 
-		void add_primitive(Primitive* primitive);
+		// Virtual functions used to access the object's
+		// position, scale and rotation.
+		virtual const glm::vec3& position() const;
+		virtual const glm::vec3& scale() const;
+		virtual const glm::vec3& rotation_axis() const;
+		virtual const float& rotation_angle() const;
 
+		// Functions build upon the virtual const functions
+		// with the same name. Affects all object's primitives
+		// at once and change the primitive's position, scale
+		// and rotation based on their state at the time they
+		// were added to the Object.
+		//glm::vec3& position();
+		//glm::vec3& scale();
+		//glm::vec3& rotation_axis();
+		//float& rotation_angle();
+
+		// Functions to move and scale the object. These
+		// functions are based in the current object's state.
+		// Affects all object's primitives at once and
+		// change the primitive's position, scale and
+		// rotation based on their state at the time
+		// they were added to the Object.
 		void translate(const glm::vec3& displacement);
 		void scale(const glm::vec3& scaleAmount);
 		void rotate(const glm::vec3& rotationAxis, float angle);
 		void rotate(float angle);
 
-		// Functions to set position, scale and rotation of objects
-		// Corresponding functions will be called for every
-		// objects's primitives. Most usefull for objects built with
-		// just one primitive
+		// Functions to move and scale the object. These
+		// functions are based in the initial object's state.
+		// Affects all object's primitives at once and
+		// change the primitive's position, scale and
+		// rotation based on their state at the time
+		// they were added to the Object.
 		void set_position(const glm::vec3& position);
 		void set_scale(const glm::vec3& scale);
 		void set_rotation_axis(const glm::vec3& rotationAxis);
 		void set_rotation_angle(float angle);
 
+		void add_primitive(Primitive* primitive);
+
 		void draw() const;
 
-		void set_color(const glm::vec3& newColor);
+		void set_color(const glm::vec3& color);
 		void set_light(Light* light);
 
 	private:
-		std::vector<Primitive*> m_primitives;
+		// Internal representation of object's position,
+		// scale and rotation
+		glm::vec3 m_position;
+		glm::vec3 m_scale;
+		glm::vec3 m_rotationAxis;
+		float m_rotationAngle;
+
+		// Struct to hold the layout of the primitive
+		// at the time it's added to the object.
+		// Hold a pointer to the primitive as well.
+		struct PrimitiveLayout {
+			Primitive* primitive;
+			glm::vec3 position;
+			glm::vec3 scale;
+			glm::vec3 rotationAxis;
+			float rotationAngle;
+		};
+		std::vector<Object::PrimitiveLayout> m_primitives;
 	};
 
 }

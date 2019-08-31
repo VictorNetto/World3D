@@ -23,10 +23,13 @@ int main()
 	//worldFloor.set_light(&pointLight);
 	//worldFloor.visible = false;
 
-	World3D::BasicPrimitive p_sphere(glm::vec3(1), glm::vec3(0.5), glm::vec3(0, 0, 1), glm::radians(30.0), &phongLight, World3D::CUBE);
-	p_sphere.color = { 0.2, 0.5, 0.8 };
+	World3D::BasicPrimitive p1(glm::vec3(0), glm::vec3(0.5), glm::vec3(0, 0, 1), glm::radians(0.0), &phongLight, World3D::CUBE);
+	World3D::BasicPrimitive p2(glm::vec3(0, 0, 0.25), glm::vec3(0.25), glm::vec3(0, 0, 1), glm::radians(30.0), &phongLight, World3D::CUBE);
+	p1.color = { 0.2, 0.5, 0.8 };
+	p2.color = { 0.8, 0.5, 0.2 };
 	World3D::Object sphere;
-	sphere.add_primitive(&p_sphere);
+	sphere.add_primitive(&p1);
+	sphere.add_primitive(&p2);
 	ourWorld.attach_object(&sphere);
 
 	while (!ourWorld.should_close())
@@ -50,7 +53,6 @@ int main()
 			static float phi = 0;
 			static float rotationAngle = 0;
 			float t, p;
-
 
 			ImGui::Begin("Cube Rotation");
 			ImGui::SliderFloat3("Position", position, -1, 1);
