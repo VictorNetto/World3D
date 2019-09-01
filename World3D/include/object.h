@@ -28,10 +28,10 @@ namespace World3D {
 		// at once and change the primitive's position, scale
 		// and rotation based on their state at the time they
 		// were added to the Object.
-		//glm::vec3& position();
-		//glm::vec3& scale();
-		//glm::vec3& rotation_axis();
-		//float& rotation_angle();
+		glm::vec3& position();
+		glm::vec3& scale();
+		glm::vec3& rotation_axis();
+		float& rotation_angle();
 
 		// Functions to move and scale the object. These
 		// functions are based in the current object's state.
@@ -50,10 +50,12 @@ namespace World3D {
 		// change the primitive's position, scale and
 		// rotation based on their state at the time
 		// they were added to the Object.
-		void set_position(const glm::vec3& position);
-		void set_scale(const glm::vec3& scale);
-		void set_rotation_axis(const glm::vec3& rotationAxis);
-		void set_rotation_angle(float angle);
+		//   >>> These functions do the same as glm::vec3& position(),
+		//   >>> glm::vec3& scale(), glm::vec3& rotation_axis() and float& rotation_angle()
+		//void set_position(const glm::vec3& position);
+		//void set_scale(const glm::vec3& scale);
+		//void set_rotation_axis(const glm::vec3& rotationAxis);
+		//void set_rotation_angle(float angle);
 
 		void add_primitive(Primitive* primitive);
 
@@ -70,17 +72,8 @@ namespace World3D {
 		glm::vec3 m_rotationAxis;
 		float m_rotationAngle;
 
-		// Struct to hold the layout of the primitive
-		// at the time it's added to the object.
-		// Hold a pointer to the primitive as well.
-		struct PrimitiveLayout {
-			Primitive* primitive;
-			glm::vec3 position;
-			glm::vec3 scale;
-			glm::vec3 rotationAxis;
-			float rotationAngle;
-		};
-		std::vector<Object::PrimitiveLayout> m_primitives;
+		// Collection of object's primitives
+		std::vector<Primitive*> m_primitives;
 	};
 
 }

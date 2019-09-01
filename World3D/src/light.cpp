@@ -53,7 +53,7 @@ PointLight::PointLight()
 	: position{ glm::vec3(0, 0, 1) },
 	ambientLight{ glm::vec3(1) }, diffuseLight{ glm::vec3(1) }, specularLight{ glm::vec3(1) },
 	ambientLightIntensity{ 0.2 }, diffuseLightIntensity{ 0.5 }, specularLightIntensity{ 0.8 },
-	constant{ 1 }, linear{ 1 }, quadradic{ 1 }
+	constant{ 1.0 }, linear{ 1.0 }, quadradic{ 1.0 }
 {
 }
 
@@ -83,7 +83,7 @@ Spotlight::Spotlight()
 	ambientLight{ glm::vec3(1) }, diffuseLight{ glm::vec3(1) }, specularLight{ glm::vec3(1) },
 	ambientLightIntensity{ 0.2 }, diffuseLightIntensity{ 0.5 }, specularLightIntensity{ 0.8 },
 	constant{ 1 }, linear{ 1 }, quadradic{ 1 },
-	direction{ glm::vec3(0, 0, -1) }, cutOff{ 0 }, outerCutOff{ 0 }
+	direction{ glm::vec3(0, 0, -1) }, cutOff{ 0.0 }, outerCutOff{ 0.0 }
 {
 }
 

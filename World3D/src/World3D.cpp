@@ -28,8 +28,6 @@ void World3D::init()
 	init_OpenGL();
 	init_ImGui();
 
-	init_vertex_data();
-
 	init_world_objects();
 }
 

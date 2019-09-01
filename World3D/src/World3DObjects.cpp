@@ -19,33 +19,33 @@ extern PhongLight phongLight;
 
 // worldAxes ------------------------------------------------------------------
 // ----------------------------------------------------------------------------
-BasicPrimitive xAxis, xAxisArrow;
-BasicPrimitive yAxis, yAxisArrow;
-BasicPrimitive zAxis, zAxisArrow;
+Primitive xAxis, xAxisArrow;
+Primitive yAxis, yAxisArrow;
+Primitive zAxis, zAxisArrow;
 
 static void construct_worldAxes()
 {
 	// x axis
-	xAxis = BasicPrimitive(glm::vec3(0.4, 0.0, 0.0), glm::vec3(0.01, 0.01, 0.4), glm::vec3(0, 1, 0), PI / 2,
+	xAxis = Primitive(glm::vec3(0.4, 0.0, 0.0), glm::vec3(0.01, 0.01, 0.4), glm::vec3(0, 1, 0), PI / 2,
 		&noLight, CYLINDER);
 	xAxis.color = glm::vec3(1, 0, 0);
-	xAxisArrow = BasicPrimitive(glm::vec3(0.9, 0.0, 0.0), glm::vec3(0.05, 0.05, 0.10), glm::vec3(0, 1, 0), PI / 2,
+	xAxisArrow = Primitive(glm::vec3(0.9, 0.0, 0.0), glm::vec3(0.05, 0.05, 0.10), glm::vec3(0, 1, 0), PI / 2,
 		&noLight, CONE);
 	xAxisArrow.color = glm::vec3(1, 0, 0);
 
 	// y axis
-	yAxis = BasicPrimitive(glm::vec3(0.0, 0.4, 0.0), glm::vec3(0.01, 0.01, 0.4), glm::vec3(1, 0, 0), -PI / 2,
+	yAxis = Primitive(glm::vec3(0.0, 0.4, 0.0), glm::vec3(0.01, 0.01, 0.4), glm::vec3(1, 0, 0), -PI / 2,
 		&noLight, CYLINDER);
 	yAxis.color = glm::vec3(0, 1, 0);
-	yAxisArrow = BasicPrimitive(glm::vec3(0.0, 0.9, 0.0), glm::vec3(0.05, 0.05, 0.10), glm::vec3(1, 0, 0), -PI / 2,
+	yAxisArrow = Primitive(glm::vec3(0.0, 0.9, 0.0), glm::vec3(0.05, 0.05, 0.10), glm::vec3(1, 0, 0), -PI / 2,
 		&noLight, CONE);
 	yAxisArrow.color = glm::vec3(0, 1, 0);
 
 	// z axis
-	zAxis = BasicPrimitive(glm::vec3(0.0, 0.0, 0.4), glm::vec3(0.01, 0.01, 0.4), glm::vec3(1, 0, 0), 0,
+	zAxis = Primitive(glm::vec3(0.0, 0.0, 0.4), glm::vec3(0.01, 0.01, 0.4), glm::vec3(1, 0, 0), 0,
 		&noLight, CYLINDER);
 	zAxis.color = glm::vec3(0, 0, 1);
-	zAxisArrow = BasicPrimitive(glm::vec3(0.0, 0.0, 0.9), glm::vec3(0.05, 0.05, 0.10), glm::vec3(1, 0, 0), 0,
+	zAxisArrow = Primitive(glm::vec3(0.0, 0.0, 0.9), glm::vec3(0.05, 0.05, 0.10), glm::vec3(1, 0, 0), 0,
 		&noLight, CONE);
 	zAxisArrow.color = glm::vec3(0, 0, 1);
 
@@ -59,12 +59,12 @@ static void construct_worldAxes()
 
 // worldFloor -----------------------------------------------------------------
 // ----------------------------------------------------------------------------
-BasicPrimitive p_floor;
+Primitive p_floor;
 
 static void construct_worldFloor()
 {
-	p_floor = BasicPrimitive(glm::vec3(0, 0, 0), glm::vec3(10, 10, 0.01), glm::vec3(0, 0, 1), 0,
-	&phongLight, CUBE);
+	p_floor = Primitive(glm::vec3(0, 0, 0), glm::vec3(10, 10, 0.01), glm::vec3(0, 0, 1), 0,
+	&phongLight, SPHERE);
 	p_floor.color = glm::vec3(1, 0, 0);
 	worldFloor.add_primitive(&p_floor);
 }

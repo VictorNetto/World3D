@@ -11,15 +11,63 @@ using namespace World3D;
 static unsigned int _vaos[NUM_SOLIDS];
 static unsigned int _nIndices[NUM_SOLIDS];
 
-static void load_cube()
+static void load_cone(const glm::vec3& position, const glm::vec3& scale,
+	const glm::vec3& rotationAxis, float rotationAngle,
+	unsigned int* vao, unsigned int* nIndices)
+{
+	unsigned int cone_vbo, cone_vao, cone_ebo;
+	static bool basiVertexDataInitialized = false;
+
+	// Initialize basic vertex data
+	if (!basiVertexDataInitialized)
+	{
+		VertexData::cone::load_basic_vertex_data();
+		basiVertexDataInitialized = true;
+	}
+
+	// Initialize our specific data
+	VertexData::cone::load_specific_vertex_data(position, scale, rotationAxis, rotationAngle);
+
+	glGenVertexArrays(1, &cone_vao);
+	glGenBuffers(1, &cone_vbo);
+	glGenBuffers(1, &cone_ebo);
+	*vao = cone_vao;
+	*nIndices = VertexData::cone::N_INDICES;
+
+	glBindVertexArray(cone_vao);
+
+	glBindBuffer(GL_ARRAY_BUFFER, cone_vbo);
+	glBufferData(GL_ARRAY_BUFFER, VertexData::cone::sizeof_vertices, VertexData::cone::vertices, GL_STATIC_DRAW);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, cone_ebo);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, VertexData::cone::sizeof_indices, VertexData::cone::indices, GL_STATIC_DRAW);
+
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+}
+
+static void load_cube(const glm::vec3& position, const glm::vec3& scale,
+	const glm::vec3& rotationAxis, float rotationAngle,
+	unsigned int* vao, unsigned int* nIndices)
 {
 	unsigned int cube_vbo[3], cube_vao, cube_ebo;
-	VertexData::cube::load();
+	static bool basiVertexDataInitialized = false;
+
+	// Initialize basic vertex data
+	if (!basiVertexDataInitialized)
+	{
+		VertexData::cube::load_basic_vertex_data();
+		basiVertexDataInitialized = true;
+	}
+
+	// Initialize our specific data
+	VertexData::cube::load_specific_vertex_data(position, scale, rotationAxis, rotationAngle);
+
 	glGenVertexArrays(1, &cube_vao);
 	glGenBuffers(3, cube_vbo);
 	glGenBuffers(1, &cube_ebo);
-	_vaos[CUBE] = cube_vao;
-	_nIndices[CUBE] = VertexData::cube::N_INDICES;
+	*vao = cube_vao;
+	*nIndices = VertexData::cube::N_INDICES;
 
 	glBindVertexArray(cube_vao);
 
@@ -45,15 +93,63 @@ static void load_cube()
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, VertexData::cube::sizeof_indices, VertexData::cube::indices, GL_STATIC_DRAW);
 }
 
-static void load_sphere()
+static void load_cylinder(const glm::vec3& position, const glm::vec3& scale,
+	const glm::vec3& rotationAxis, float rotationAngle,
+	unsigned int* vao, unsigned int* nIndices)
+{
+	unsigned int cylinder_vbo, cylinder_vao, cylinder_ebo;
+	static bool basiVertexDataInitialized = false;
+
+	// Initialize basic vertex data
+	if (!basiVertexDataInitialized)
+	{
+		VertexData::cylinder::load_basic_vertex_data();
+		basiVertexDataInitialized = true;
+	}
+
+	// Initialize our specific data
+	VertexData::cylinder::load_specific_vertex_data(position, scale, rotationAxis, rotationAngle);
+
+	glGenVertexArrays(1, &cylinder_vao);
+	glGenBuffers(1, &cylinder_vbo);
+	glGenBuffers(1, &cylinder_ebo);
+	*vao = cylinder_vao;
+	*nIndices = VertexData::cylinder::N_INDICES;
+
+	glBindVertexArray(cylinder_vao);
+
+	glBindBuffer(GL_ARRAY_BUFFER, cylinder_vbo);
+	glBufferData(GL_ARRAY_BUFFER, VertexData::cylinder::sizeof_vertices, VertexData::cylinder::vertices, GL_STATIC_DRAW);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, cylinder_ebo);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, VertexData::cylinder::sizeof_indices, VertexData::cylinder::indices, GL_STATIC_DRAW);
+
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+}
+
+static void load_sphere(const glm::vec3& position, const glm::vec3& scale,
+	const glm::vec3& rotationAxis, float rotationAngle,
+	unsigned int* vao, unsigned int* nIndices)
 {
 	unsigned int sphere_vbo[2], sphere_vao, sphere_ebo;
-	VertexData::sphere::load();
+	static bool basiVertexDataInitialized = false;
+
+	// Initialize basic vertex data
+	if (!basiVertexDataInitialized)
+	{
+		VertexData::sphere::load_basic_vertex_data();
+		basiVertexDataInitialized = true;
+	}
+
+	// Initialize our specific data
+	VertexData::sphere::load_specific_vertex_data(position, scale, rotationAxis, rotationAngle);
+
 	glGenVertexArrays(1, &sphere_vao);
 	glGenBuffers(2, sphere_vbo);
 	glGenBuffers(1, &sphere_ebo);
-	_vaos[SPHERE] = sphere_vao;
-	_nIndices[SPHERE] = VertexData::sphere::N_INDICES;
+	*vao = sphere_vao;
+	*nIndices = VertexData::sphere::N_INDICES;
 
 	glBindVertexArray(sphere_vao);
 
@@ -73,119 +169,46 @@ static void load_sphere()
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, VertexData::sphere::sizeof_indices, VertexData::sphere::indices, GL_STATIC_DRAW);
 }
 
-static void load_cone()
+static void load_solid(const glm::vec3& position, const glm::vec3& scale,
+	const glm::vec3& rotationAxis, float rotationAngle,
+	Solid solid, unsigned int* vao, unsigned int* nIndices)
 {
-	unsigned int cone_vbo, cone_vao, cone_ebo;
-	cone::load();
-	glGenVertexArrays(1, &cone_vao);
-	glGenBuffers(1, &cone_vbo);
-	glGenBuffers(1, &cone_ebo);
-	_vaos[CONE] = cone_vao;
-	_nIndices[CONE] = cone::N_INDICES;
-
-	glBindVertexArray(cone_vao);
-
-	glBindBuffer(GL_ARRAY_BUFFER, cone_vbo);
-	glBufferData(GL_ARRAY_BUFFER, cone::sizeof_vertices, cone::vertices, GL_STATIC_DRAW);
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, cone_ebo);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, cone::sizeof_indices, cone::indices, GL_STATIC_DRAW);
-
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
-}
-
-static void load_cylinder()
-{
-	unsigned int cylinder_vbo, cylinder_vao, cylinder_ebo;
-	cylinder::load();
-	glGenVertexArrays(1, &cylinder_vao);
-	glGenBuffers(1, &cylinder_vbo);
-	glGenBuffers(1, &cylinder_ebo);
-	_vaos[CYLINDER] = cylinder_vao;
-	_nIndices[CYLINDER] = cylinder::N_INDICES;
-
-	glBindVertexArray(cylinder_vao);
-
-	glBindBuffer(GL_ARRAY_BUFFER, cylinder_vbo);
-	glBufferData(GL_ARRAY_BUFFER, cylinder::sizeof_vertices, cylinder::vertices, GL_STATIC_DRAW);
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, cylinder_ebo);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, cylinder::sizeof_indices, cylinder::indices, GL_STATIC_DRAW);
-
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
-}
-
-static void load_solid(Solid solid, unsigned int* vao, unsigned int* nIndices)
-{
-	*vao = _vaos[solid];
-	*nIndices = _nIndices[solid];
+	if (solid == CONE)
+	{
+		load_cone(position, scale, rotationAxis, rotationAngle, vao, nIndices);
+	}
+	else if (solid == CUBE)
+	{
+		load_cube(position, scale, rotationAxis, rotationAngle, vao, nIndices);
+	}
+	else if (solid == CYLINDER)
+	{
+		load_cylinder(position, scale, rotationAxis, rotationAngle, vao, nIndices);
+	}
+	else if (solid == SPHERE)
+	{
+		load_sphere(position, scale, rotationAxis, rotationAngle, vao, nIndices);
+	}
 }
 
 // ----------------------------------------------------------------------------
 // -- Primitive ---------------------------------------------------------------
 // ----------------------------------------------------------------------------
-Primitive::Primitive(Light* light, Solid solid)
+Primitive::Primitive(const glm::vec3& position, const glm::vec3& scale,
+	const glm::vec3& rotationAxis, float rotationAngle,
+	Light* light, Solid solid)
 	: light { light }
 {
-	load_solid(solid, &m_vao, &m_nIndices);
+	load_solid(position, scale, rotationAxis, rotationAngle, solid, &m_vao, &m_nIndices);
 }
 
-// Code from Effective C++
-glm::vec3& Primitive::position()
-{
-	return const_cast<glm::vec3&>(const_cast<const Primitive*>(this)->position());
-}
-
-// Code from Effective C++
-glm::vec3& Primitive::scale()
-{
-	return const_cast<glm::vec3&>(const_cast<const Primitive*>(this)->scale());
-}
-
-// Code from Effective C++
-glm::vec3& Primitive::rotation_axis()
-{
-	return const_cast<glm::vec3&>(const_cast<const Primitive*>(this)->rotation_axis());
-}
-
-// Code from Effective C++
-float& Primitive::rotation_angle()
-{
-	return const_cast<float&>(const_cast<const Primitive*>(this)->rotation_angle());
-}
-
-void Primitive::translate(const glm::vec3& displacement)
-{
-	glm::vec3& oldPosition = position();
-	oldPosition += displacement;
-}
-
-void Primitive::scale(const glm::vec3& scaleAmount)
-{
-	glm::vec3& oldScale = scale();
-	oldScale *= scaleAmount;
-}
-
-void Primitive::rotate(const glm::vec3& rotationAxis, float angle)
-{
-	// Implement This!!!
-}
-
-void Primitive::rotate(float angle)
-{
-	//rotationAxis = rotation_axis();
-}
-
-
-#include <iostream>
-void Primitive::draw() const
+void Primitive::draw(const glm::vec3& position, const glm::vec3& scale,
+	const glm::vec3& rotationAxis, float rotationAngle) const
 {
 	// set up the model transformation
-	glm::mat4 modelTranslate = glm::translate(glm::mat4(1.0f), position());
-	glm::mat4 modelRotate = glm::rotate(glm::mat4(1.0f), rotation_angle(), rotation_axis());
-	glm::mat4 modelScale = glm::scale(glm::mat4(1.0f), scale());
+	glm::mat4 modelTranslate = glm::translate(glm::mat4(1.0f), position);
+	glm::mat4 modelRotate = glm::rotate(glm::mat4(1.0f), rotationAngle, rotationAxis);
+	glm::mat4 modelScale = glm::scale(glm::mat4(1.0f), scale);
 
 	light->get_shader().use();
 	light->get_shader().setMat4("model", modelTranslate * modelRotate * modelScale);
@@ -194,50 +217,4 @@ void Primitive::draw() const
 	// finally draw the primitive
 	glBindVertexArray(m_vao);
 	glDrawElements(GL_TRIANGLES, m_nIndices, GL_UNSIGNED_INT, 0);
-}
-
-void World3D::init_vertex_data()
-{
-	static bool initialized = false;
-
-	if (!initialized) {
-		load_cube();
-		load_sphere();
-		load_cylinder();
-		load_cone();
-
-		initialized = true;
-	}
-}
-
-// ----------------------------------------------------------------------------
-// -- BasicPrimitive ----------------------------------------------------------
-// ----------------------------------------------------------------------------
-
-BasicPrimitive::BasicPrimitive(glm::vec3 position, glm::vec3 scale,
-	glm::vec3 rotationAxis, float rotationAngle,
-	Light* light, Solid solid)
-	: Primitive{ light, solid }, m_position{ position }, m_scale{ scale },
-	m_rotationAxis{ rotationAxis }, m_rotationAngle{ rotationAngle }
-{
-}
-
-const glm::vec3& BasicPrimitive::position() const
-{
-	return m_position;
-}
-
-const glm::vec3& BasicPrimitive::scale() const
-{
-	return m_scale;
-}
-
-const glm::vec3& BasicPrimitive::rotation_axis() const
-{
-	return m_rotationAxis;
-}
-
-const float& BasicPrimitive::rotation_angle() const
-{
-	return m_rotationAngle;
 }
